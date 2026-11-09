@@ -1,4 +1,4 @@
-import { db } from "./db.ts";
+import { db } from "./db.js";
 
 const users = [
   { email: "alice@prisma.io", username: "alice", name: "Alice" },
@@ -8,15 +8,7 @@ const users = [
 
 let pendingSeed: Promise<void> | undefined;
 
-async function runSeed(): Promise<void> {
-  for (const user of users) {
-    await db.orm.public.User.upsert({
-      create: user,
-      update: {},
-      conflictOn: { email: user.email },
-    });
-  }
-}
+async function runSeed(): Promise<void> {}
 
 export function seed(): Promise<void> {
   pendingSeed ??= runSeed().catch((error: unknown) => {

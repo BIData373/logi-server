@@ -1,21 +1,48 @@
 // use prisma-8
+// Contract inferred from the live database schema. Edit as needed, then run `prisma contract emit`.
 
-model User {
-  id        Int                @id @default(autoincrement())
-  email     String             @unique
-  username  String?
+model Users {
+  id        Int        @id(map: "users_pkey") @default(autoincrement())
+  createdAt DateTime   @default(now()) @map("created_at")
+  email     String     @unique(map: "users_email_key")
   name      String?
-  posts     Post[]
-  createdAt DateTime           @default(now()) @onCreate(now())
-  updatedAt temporal.UpdatedAt
+  updatedAt DateTime?   @map("updated_at")
+  username  String?
+  images    Images[]
+  products  Products[]
+
+  @@map("users")
 }
 
-model Post {
-  id        Int                @id @default(autoincrement())
-  title     String
-  content   String?
-  author    User               @relation(fields: [authorId], references: [id])
-  authorId  Int
-  createdAt DateTime           @default(now()) @onCreate(now())
-  updatedAt temporal.UpdatedAt
+model Products {
+  id         Int       @id(map: "products_pkey") @default(autoincrement())
+  createdAt  DateTime  @default(now()) @map("created_at")
+  createdBy  Int       @map("created_by")
+  deletedAt  DateTime? @map("deleted_at")
+  discrption String?
+  name       String
+  updatedAt  DateTime?  @map("updated_at")
+  images     Images[]
+  users      Users     @relation(fields: [createdBy], references: [id], map: "products_created_by_fkey")
+
+  @@index([createdBy], name: "products_created_by_idx")
+  @@map("products")
+}
+
+model Images {
+  id        Int       @id(map: "images_pkey") @default(autoincrement())
+  createdAt DateTime  @default(now()) @map("created_at")
+  createdBy Int       @map("created_by")
+  deletedAt DateTime? @map("deleted_at")
+  isPrimary Boolean   @map("is_primary")
+  name      String
+  productId Int       @map("product_id")
+  updatedAt DateTime?  @map("updated_at")
+  url       String
+  users     Users     @relation(fields: [createdBy], references: [id], map: "images_created_by_fkey")
+  product   Products  @relation(fields: [productId], references: [id], map: "images_product_id_fkey")
+
+  @@index([createdBy], name: "images_created_by_idx")
+  @@index([productId], name: "images_product_id_idx")
+  @@map("images")
 }

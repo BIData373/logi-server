@@ -1,0 +1,13 @@
+{
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "builder": "swc",
+    "typeCheck": true,
+    "assets": [
+      {
+        "include": "prisma/*.json",
+        "watchAssets": true
+      }
+    ]
+  }
+}
