@@ -1,7 +1,6 @@
 import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller.js";
 import { PrismaService } from "./prisma.service.js";
-
 import { ProductsService } from "./entities/products/products.service.js";
 import { ImagesService } from "./entities/images/images.service.js";
 import { ImagesController } from "./entities/images/images.controller.js";
