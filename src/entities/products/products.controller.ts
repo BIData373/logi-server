@@ -10,6 +10,9 @@ import {
 import { ProductsService } from "./products.service.js";
 import { NewProductDto } from "./request/new-product.dto.js";
 import { UpdateProductDto } from "./request/update-product.dto.js";
+import { TransformPlainToInstance } from "class-transformer";
+import { GetProductResponseDto } from "./response/get-product.dto.js";
+import { GetProductDto } from "./request/get-product.dto.js";
 
 @Controller("products")
 export class ProductsController {
@@ -23,16 +26,21 @@ export class ProductsController {
   }
 
   @Get()
+  @TransformPlainToInstance(GetProductResponseDto)
   async getAllProducts() {
+    console.log("bye");
     return await this.service.findAll();
   }
 
-  @Get(":id")
-  async getProductById(@Param("id") id: number) {
-    return await this.service.findById(id);
+  @Get("/:id")
+  @TransformPlainToInstance(GetProductResponseDto)
+  async getProductById(@Param() product: GetProductDto) {
+    console.log(product);
+    return product.foundEntitiy;
   }
-  @Patch()
-  async updateProduct(@Body() product: UpdateProductDto) {
-    return product;
+
+  @Patch("/:id")
+  async updateProduct(@Param() product: UpdateProductDto, @Body() body: any) {
+    await this.service.updateProduct({ ...UpdateProductDto, ...body });
   }
 }

@@ -1,0 +1,17 @@
+// use prisma-8
+// Contract inferred from the live database schema. Edit as needed, then run `prisma contract emit`.
+
+model Products {
+  id         Int       @id(map: "products_pkey") @default(autoincrement())
+  createdAt  DateTime  @default(now()) @map("created_at")
+  createdBy  Int       @map("created_by")
+  deletedAt  DateTime? @map("deleted_at")
+  discrption String?
+  name       String
+  updatedAt  DateTime?  @map("updated_at")
+  images     Images[]
+  users      Users     @relation(fields: [createdBy], references: [id], map: "products_created_by_fkey")
+
+  @@index([createdBy], name: "products_created_by_idx")
+  @@map("products")
+}
