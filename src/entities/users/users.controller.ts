@@ -5,6 +5,7 @@ import { UsersService } from "./users.service.js";
 @Controller("users")
 export class UsersController {
   constructor(@Inject(UsersService) private readonly service: UsersService) {}
+
   @Post()
   async newProduct(@Body() user: NewUserDto) {
     await this.service.createUser(user);
