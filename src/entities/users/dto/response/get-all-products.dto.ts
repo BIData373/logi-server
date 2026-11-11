@@ -1,7 +1,12 @@
-import { Exclude, Expose, Type, plainToInstance } from "class-transformer";
+import { Exclude, Expose } from "class-transformer";
 @Exclude()
 export class GetAllProductsResponse {
+  @Expose()
   username: string;
+
+  @Expose()
   name: string;
+
+  @Expose()
   email: string;
 }
