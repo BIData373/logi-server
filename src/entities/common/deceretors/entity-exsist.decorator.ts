@@ -1,13 +1,13 @@
-import { Inject, Injectable } from "@nestjs/common";
-import type { Contract } from "@prisma/orm-postgres/contract/types";
+import { Injectable } from "@nestjs/common";
 import {
   registerDecorator,
-  type ValidationOptions,
   type ValidationArguments,
+  type ValidationOptions,
   ValidatorConstraint,
   type ValidatorConstraintInterface,
 } from "class-validator";
 import { PrismaService } from "../../../prisma.service.js";
+import { type ModelName } from "../types/model-name.type.js";
 
 @ValidatorConstraint({ async: true })
 @Injectable()
@@ -15,19 +15,23 @@ export class entityExistsConstraint implements ValidatorConstraintInterface {
   constructor(private readonly prisma: PrismaService) {}
   async validate(id: number, validationArguments?: ValidationArguments) {
     const orm = this.prisma.orm as any;
-    console.log(validationArguments?.constraints);
     const [entityClass] = validationArguments?.constraints as any;
-    console.log(orm[String(entityClass)]);
+
     const entity = await orm[entityClass].where({ id }).first();
-    console.log(entity);
-    return entity;
+    (validationArguments?.object as any).foundEntitiy = entity;
+
+    return true;
   }
+
   defaultMessage(validationArguments?: ValidationArguments): string {
-    return "user not exsist";
+    return "entity not exsist";
   }
 }
 
-export function EntityExist(entityClass: any, options?: ValidationOptions) {
+export function EntityExist(
+  entityClass: keyof ModelName,
+  options?: ValidationOptions,
+) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
       target: object.constructor,
