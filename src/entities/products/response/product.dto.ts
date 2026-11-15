@@ -1,8 +1,8 @@
 import { Exclude, Expose, Type } from "class-transformer";
-import { GetImageResponseDto } from "../../images/dto/response/get-image.dto.js";
+import { ImageDto } from "../../images/dto/response/image.dto.js";
 
 @Exclude()
-export class GetProductResponseDto {
+export class ProductDto {
   @Expose()
   name: string;
 
@@ -13,6 +13,6 @@ export class GetProductResponseDto {
   discrption: string;
 
   @Expose()
-  @Type(() => GetImageResponseDto)
+  @Type(() => ImageDto)
   images: [];
 }

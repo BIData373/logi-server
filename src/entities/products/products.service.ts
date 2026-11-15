@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { PrismaService } from "../../prisma.service.js";
-import type { NewProductDto } from "./request/new-product.dto.js";
+import type { CreateProductDto } from "./request/create-product.dto.js";
 import type { UpdateProductDto } from "./request/update-product.dto.js";
 
 @Injectable()
@@ -10,12 +10,12 @@ export class ProductsService {
     return this.prisma.orm.Products.include("images").all();
   }
 
-  async createProduct(product: NewProductDto) {
+  async createProduct(product: CreateProductDto) {
     await this.prisma.orm.Products.create(product);
   }
 
   async updateProduct(product: UpdateProductDto) {
-    console.log(new Date());
+    new Date();
     const { id, foundEntitiy, imagesToDelete, imagesToAdd, ...updates } =
       product;
 

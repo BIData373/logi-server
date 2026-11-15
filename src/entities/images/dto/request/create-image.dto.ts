@@ -1,6 +1,6 @@
 import { IsBoolean, IsEmail, IsString } from "class-validator";
 
-export class NewImageDto {
+export class CreateImageDto {
   @IsString()
   url: string;
 

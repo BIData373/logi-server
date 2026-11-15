@@ -8,10 +8,10 @@ import {
   Post,
 } from "@nestjs/common";
 import { ProductsService } from "./products.service.js";
-import { NewProductDto } from "./request/new-product.dto.js";
+import { CreateProductDto } from "./request/create-product.dto.js";
 import { UpdateProductDto } from "./request/update-product.dto.js";
 import { TransformPlainToInstance } from "class-transformer";
-import { GetProductResponseDto } from "./response/get-product.dto.js";
+import { ProductDto } from "./response/product.dto.js";
 import { GetProductDto } from "./request/get-product.dto.js";
 
 @Controller("products")
@@ -21,21 +21,21 @@ export class ProductsController {
   ) {}
 
   @Post()
-  async createProduct(@Body() product: NewProductDto) {
+  async createProduct(@Body() product: CreateProductDto) {
     await this.service.createProduct(product);
   }
 
   @Get()
-  @TransformPlainToInstance(GetProductResponseDto)
+  @TransformPlainToInstance(ProductDto)
   async getAllProducts() {
-    console.log("bye");
+    ("bye");
     return await this.service.findAll();
   }
 
   @Get("/:id")
-  @TransformPlainToInstance(GetProductResponseDto)
+  @TransformPlainToInstance(ProductDto)
   async getProductById(@Param() product: GetProductDto) {
-    console.log(product);
+    product;
     return product.foundEntitiy;
   }
 

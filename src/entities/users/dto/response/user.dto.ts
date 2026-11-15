@@ -1,6 +1,6 @@
 import { Exclude, Expose } from "class-transformer";
 @Exclude()
-export class GetAllProductsResponse {
+export class UserDto {
   @Expose()
   username: string;
 
