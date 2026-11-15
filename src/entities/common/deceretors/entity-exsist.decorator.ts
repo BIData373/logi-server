@@ -18,8 +18,7 @@ export class entityExistsConstraint implements ValidatorConstraintInterface {
     const [entityClass] = validationArguments?.constraints as any;
 
     const entity = await orm[entityClass].where({ id }).first();
-    (validationArguments?.object as any).foundEntitiy = entity;
-
+    (validationArguments?.object as any).contex = entity;
     return true;
   }
 

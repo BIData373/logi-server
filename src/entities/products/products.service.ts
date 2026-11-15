@@ -14,10 +14,14 @@ export class ProductsService {
     await this.prisma.orm.Products.create(product);
   }
 
-  async updateProduct(product: UpdateProductDto) {
+  async updateProduct({
+    id,
+    contex,
+    imagesToDelete,
+    imagesToAdd,
+    ...updates
+  }: UpdateProductDto) {
     new Date();
-    const { id, foundEntitiy, imagesToDelete, imagesToAdd, ...updates } =
-      product;
 
     this.prisma.db.transaction(async (tx) => {
       const update = await tx.orm.public.Products.where({ id: id }).update({

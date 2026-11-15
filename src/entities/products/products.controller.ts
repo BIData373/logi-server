@@ -36,7 +36,7 @@ export class ProductsController {
   @TransformPlainToInstance(ProductDto)
   async getProductById(@Param() product: GetProductDto) {
     product;
-    return product.foundEntitiy;
+    return product.contex;
   }
 
   @Patch("/:id")
