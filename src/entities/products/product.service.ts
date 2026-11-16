@@ -16,7 +16,7 @@ export class ProductService {
 
   async updateProduct({
     id,
-    contex,
+    context,
     imagesToDelete,
     imagesToAdd,
     ...updates

@@ -28,15 +28,13 @@ export class ProductController {
   @Get()
   @TransformPlainToInstance(ProductDto)
   async getAllProducts() {
-    ("bye");
     return await this.service.findAll();
   }
 
   @Get("/:id")
   @TransformPlainToInstance(ProductDto)
   async getProductById(@Param() product: GetProductDto) {
-    product;
-    return product.contex;
+    return product.context;
   }
 
   @Patch("/:id")
