@@ -6,8 +6,8 @@ export class ImageController {
   constructor(@Inject(ImageService) private readonly service: ImageService) {}
 
   @Post()
-  async addImage(@Body() image: CreateImageDto) {
+  async createImage(@Body() image: CreateImageDto) {
     image;
-    await this.service.addImage(image);
+    await this.service.createImage(image);
   }
 }
