@@ -1,15 +1,8 @@
 import { Transform } from "class-transformer";
 import { IsArray, IsOptional, IsString } from "class-validator";
-import { EntityExist } from "../../common/deceretors/entity-exsist.decorator.js";
-import { GetContextDto } from "../../common/dto/request/get-context.dto.js";
+import { transformToIdArr } from "../../common/functions/transform-arrey.js";
 
-const transformToId = ({ value }: { value: number[] }) =>
-  value.map((id) => ({ id }));
-
-export class UpdateProductDto extends GetContextDto {
-  @EntityExist("Product")
-  id: number;
-
+export class UpdateProductDto {
   @IsOptional()
   @IsString()
   discrption: string;
@@ -19,12 +12,10 @@ export class UpdateProductDto extends GetContextDto {
   name: string;
 
   @IsOptional()
-  @Transform(transformToId)
-  @IsArray()
-  imagesToDelete: [];
+  @Transform(transformToIdArr)
+  imagesToDelete: { id: number }[];
 
   @IsOptional()
-  @Transform(transformToId)
-  @IsArray()
-  imagesToAdd: [];
+  @Transform(transformToIdArr)
+  imagesToAdd: { id: number }[];
 }

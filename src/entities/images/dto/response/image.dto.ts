@@ -4,4 +4,7 @@ import { Exclude, Expose } from "class-transformer";
 export class ImageDto {
   @Expose()
   name: string;
+
+  @Expose()
+  url: string;
 }
