@@ -1,9 +1,9 @@
 import { Body, Controller, Inject, Post } from "@nestjs/common";
-import { ImagesService } from "./images.service.js";
+import { ImageService } from "./image.service.js";
 import type { CreateImageDto } from "./dto/request/create-image.dto.js";
 @Controller("images")
-export class ImagesController {
-  constructor(@Inject(ImagesService) private readonly service: ImagesService) {}
+export class ImageController {
+  constructor(@Inject(ImageService) private readonly service: ImageService) {}
 
   @Post()
   async addImage(@Body() image: CreateImageDto) {

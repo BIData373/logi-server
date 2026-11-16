@@ -3,11 +3,11 @@ import { PrismaService } from "../../prisma.service.js";
 import type { CreateUserDto } from "./dto/request/create-user.dto.js";
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
   async createUser(user: CreateUserDto) {
     user;
-    await this.prisma.orm.Users.create({
+    await this.prisma.orm.User.create({
       email: user.email,
       username: user.username,
       name: user.name,

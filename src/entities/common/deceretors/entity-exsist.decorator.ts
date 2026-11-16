@@ -15,11 +15,14 @@ export class entityExistsConstraint implements ValidatorConstraintInterface {
   constructor(private readonly prisma: PrismaService) {}
   async validate(id: number, validationArguments?: ValidationArguments) {
     const orm = this.prisma.orm as any;
-    const [entityClass] = validationArguments?.constraints as any;
-
+    const [entityClass] = validationArguments?.constraints as [ModelName];
     const entity = await orm[entityClass].where({ id }).first();
-    (validationArguments?.object as any).contex = entity;
-    return true;
+    if (entity) {
+      (validationArguments?.object as any).contex = entity;
+
+      return true;
+    }
+    return false;
   }
 
   defaultMessage(validationArguments?: ValidationArguments): string {
@@ -28,7 +31,7 @@ export class entityExistsConstraint implements ValidatorConstraintInterface {
 }
 
 export function EntityExist(
-  entityClass: keyof ModelName,
+  entityClass: ModelName,
   options?: ValidationOptions,
 ) {
   return function (object: Object, propertyName: string) {

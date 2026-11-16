@@ -1,10 +1,10 @@
 import { Body, Controller, Inject, Post } from "@nestjs/common";
 import type { CreateUserDto } from "./dto/request/create-user.dto.js";
-import { UsersService } from "./users.service.js";
+import { UserService } from "./user.service.js";
 
 @Controller("users")
-export class UsersController {
-  constructor(@Inject(UsersService) private readonly service: UsersService) {}
+export class UserController {
+  constructor(@Inject(UserService) private readonly service: UserService) {}
 
   @Post()
   async newProduct(@Body() user: CreateUserDto) {

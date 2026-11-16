@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { definePrismaConfig } from "prisma/config";
 import { defineConfig as ormConfig } from "@prisma/orm-postgres/config";
 import { defineConfig as composer } from "@prisma/composer/config";
@@ -7,6 +8,13 @@ import {
   prismaState,
 } from "@prisma/composer-prisma-cloud/control";
 
+const url = process.env.DATABASE_URL;
+
+console.log("Database config:", {
+  exists: Boolean(url),
+  host: url ? new URL(url).hostname : undefined,
+  port: url ? new URL(url).port : undefined,
+});
 export default definePrismaConfig({
   skills: {
     agents: [],

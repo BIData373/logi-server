@@ -1,27 +1,27 @@
 import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller.js";
 import { PrismaService } from "./prisma.service.js";
-import { ProductsService } from "./entities/products/products.service.js";
-import { ImagesService } from "./entities/images/images.service.js";
-import { ImagesController } from "./entities/images/images.controller.js";
-import { ProductsController } from "./entities/products/products.controller.js";
-import { UsersController } from "./entities/users/users.controller.js";
-import { UsersService } from "./entities/users/users.service.js";
+import { ProductService } from "./entities/products/product.service.js";
+import { ImageService } from "./entities/images/image.service.js";
+import { ImageController } from "./entities/images/image.controller.js";
+import { ProductController } from "./entities/products/product.controller.js";
+import { UserController } from "./entities/user/user.controller.js";
+import { UserService } from "./entities/user/user.service.js";
 import { entityExistsConstraint } from "./entities/common/deceretors/entity-exsist.decorator.js";
 
 @Module({
   imports: [],
   controllers: [
     AppController,
-    UsersController,
-    ProductsController,
-    ImagesController,
+    UserController,
+    ProductController,
+    ImageController,
   ],
   providers: [
     PrismaService,
-    UsersService,
-    ProductsService,
-    ImagesService,
+    UserService,
+    ProductService,
+    ImageService,
     entityExistsConstraint,
   ],
 })

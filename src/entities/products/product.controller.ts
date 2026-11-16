@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
-import { ProductsService } from "./products.service.js";
+import { ProductService } from "./product.service.js";
 import { CreateProductDto } from "./request/create-product.dto.js";
 import { UpdateProductDto } from "./request/update-product.dto.js";
 import { TransformPlainToInstance } from "class-transformer";
@@ -15,9 +15,9 @@ import { ProductDto } from "./response/product.dto.js";
 import { GetProductDto } from "./request/get-product.dto.js";
 
 @Controller("products")
-export class ProductsController {
+export class ProductController {
   constructor(
-    @Inject(ProductsService) private readonly service: ProductsService,
+    @Inject(ProductService) private readonly service: ProductService,
   ) {}
 
   @Post()

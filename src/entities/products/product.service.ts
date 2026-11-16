@@ -4,14 +4,14 @@ import type { CreateProductDto } from "./request/create-product.dto.js";
 import type { UpdateProductDto } from "./request/update-product.dto.js";
 
 @Injectable()
-export class ProductsService {
+export class ProductService {
   constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
   async findAll() {
-    return this.prisma.orm.Products.include("images").all();
+    return this.prisma.orm.Product.include("images").all();
   }
 
   async createProduct(product: CreateProductDto) {
-    await this.prisma.orm.Products.create(product);
+    await this.prisma.orm.Product.create(product);
   }
 
   async updateProduct({
@@ -24,18 +24,18 @@ export class ProductsService {
     new Date();
 
     this.prisma.db.transaction(async (tx) => {
-      const update = await tx.orm.public.Products.where({ id: id }).update({
+      const update = await tx.orm.public.Product.where({ id: id }).update({
         ...updates,
         updatedAt: new Date(),
       });
 
       if (imagesToDelete)
-        tx.orm.public.Products.where({ id }).update({
+        tx.orm.public.Product.where({ id }).update({
           images: (images) => images.disconnect(imagesToDelete),
         });
 
       if (imagesToAdd)
-        tx.orm.public.Products.where({ id }).update({
+        tx.orm.public.Product.where({ id }).update({
           images: (images) => images.disconnect(imagesToAdd),
         });
     });

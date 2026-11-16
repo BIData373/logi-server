@@ -7,7 +7,7 @@ const transformToId = ({ value }: { value: number[] }) =>
   value.map((id) => ({ id }));
 
 export class UpdateProductDto extends GetContextDto {
-  @EntityExist("Products")
+  @EntityExist("Product")
   id: number;
 
   @IsOptional()
