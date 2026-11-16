@@ -8,17 +8,20 @@ import {
 } from "class-validator";
 import { PrismaService } from "../../../prisma.service.js";
 import { type ModelName } from "../types/model-name.type.js";
-
+import type { GetContextDto } from "../dto/request/get-context.dto.js";
+type ModelAccessor = { first(filter: { id: number }): Promise<unknown | null> };
 @ValidatorConstraint({ async: true })
 @Injectable()
 export class entityExistsConstraint implements ValidatorConstraintInterface {
   constructor(private readonly prisma: PrismaService) {}
   async validate(id: number, validationArguments?: ValidationArguments) {
-    const orm = this.prisma.orm as any;
     const [entityClass] = validationArguments?.constraints as [ModelName];
-    const entity = await orm[entityClass].where({ id }).first();
+    const orm = this.prisma.orm[entityClass] as unknown as ModelAccessor;
+    const entity = await orm.first({
+      id,
+    });
     if (entity) {
-      (validationArguments?.object as any).context = entity;
+      (validationArguments?.object as GetContextDto).context = entity;
 
       return true;
     }
