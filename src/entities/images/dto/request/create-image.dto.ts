@@ -1,4 +1,12 @@
-import { IsBoolean, IsEmail, IsNumber, IsString, IsUrl } from "class-validator";
+import { Type } from "class-transformer";
+import {
+  IsBoolean,
+  IsEmail,
+  IsNumber,
+  IsPositive,
+  IsString,
+  IsUrl,
+} from "class-validator";
 
 export class CreateImageDto {
   @IsUrl()
@@ -13,9 +21,11 @@ export class CreateImageDto {
   @IsBoolean()
   isPrimary: boolean;
 
-  @IsNumber()
+  @Type(() => Number)
+  @IsPositive()
   createdBy: number;
 
-  @IsNumber()
+  @Type(() => Number)
+  @IsPositive()
   productId: number;
 }
