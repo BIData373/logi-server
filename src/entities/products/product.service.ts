@@ -5,7 +5,7 @@ import type { UpdateProductDto } from "./request/update-product.dto.js";
 
 @Injectable()
 export class ProductService {
-  constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
   async findAll() {
     return this.prisma.orm.Product.include("images").all();
   }

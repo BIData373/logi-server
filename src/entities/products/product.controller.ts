@@ -16,9 +16,7 @@ import { GetProductDto } from "./request/get-product.dto.js";
 
 @Controller("products")
 export class ProductController {
-  constructor(
-    @Inject(ProductService) private readonly service: ProductService,
-  ) {}
+  constructor(private readonly service: ProductService) {}
 
   @Post()
   async createProduct(@Body() product: CreateProductDto) {

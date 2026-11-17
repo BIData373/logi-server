@@ -3,7 +3,7 @@ import { ImageService } from "./image.service.js";
 import { CreateImageDto } from "./dto/request/create-image.dto.js";
 @Controller("images")
 export class ImageController {
-  constructor(@Inject(ImageService) private readonly service: ImageService) {}
+  constructor(private readonly service: ImageService) {}
 
   @Post()
   async createImage(@Body() image: CreateImageDto) {
