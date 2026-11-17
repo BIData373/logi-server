@@ -10,7 +10,7 @@ export class ProductDto {
   createdBy: number;
 
   @Expose()
-  discrption: string;
+  description: string;
 
   @Expose()
   @Type(() => ImageDto)

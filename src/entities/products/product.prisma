@@ -6,7 +6,7 @@ model Product {
   createdAt  DateTime  @default(now()) @map("created_at")
   createdBy  Int       @map("created_by")
   deletedAt  DateTime? @map("deleted_at")
-  discrption String?
+  description String?
   name       String
   updatedAt  DateTime?  @map("updated_at")
   images     Image[]

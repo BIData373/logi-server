@@ -7,5 +7,5 @@ export class CreateProductDto {
   createdBy: number;
 
   @IsString()
-  discrption: string;
+  description: string;
 }

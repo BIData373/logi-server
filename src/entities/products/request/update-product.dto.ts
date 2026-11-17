@@ -5,7 +5,7 @@ import { transformToIdArr } from "../../common/functions/transform-arrey.js";
 export class UpdateProductDto {
   @IsOptional()
   @IsString()
-  discrption: string;
+  description: string;
 
   @IsOptional()
   @IsString()
