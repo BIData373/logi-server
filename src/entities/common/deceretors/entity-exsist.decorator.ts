@@ -29,7 +29,7 @@ export class entityExistsConstraint implements ValidatorConstraintInterface {
   }
 
   defaultMessage(validationArguments?: ValidationArguments): string {
-    return "entity not exsist";
+    return `Entity with ID ${validationArguments?.value} does not exist`;
   }
 }
 

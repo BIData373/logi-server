@@ -20,7 +20,6 @@ export class ProductService {
   ) {
     new Date();
     let update;
-    console.log(imagesToDelete);
     await this.prisma.db.transaction(async (tx) => {
       update = await tx.orm.public.Product.where({ id: id }).update({
         ...updates,
