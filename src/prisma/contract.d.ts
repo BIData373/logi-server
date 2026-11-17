@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'aa066fa6b87d9bb7524432255ce910d8fa4d87b1be5b73caeecd6f7cc07c4feb'>;
+  StorageHashBase<'c6e21ae114be88762d1b2befc8e64f98fc32eae0201c2fc0bceebde63eb40488'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -326,7 +326,7 @@ export namespace Models {
     createdAt: FieldOutputTypes['public']['Product']['createdAt'];
     createdBy: FieldOutputTypes['public']['Product']['createdBy'];
     deletedAt: FieldOutputTypes['public']['Product']['deletedAt'];
-    discrption: FieldOutputTypes['public']['Product']['discrption'];
+    description: FieldOutputTypes['public']['Product']['description'];
     id: FieldOutputTypes['public']['Product']['id'];
     name: FieldOutputTypes['public']['Product']['name'];
     updatedAt: FieldOutputTypes['public']['Product']['updatedAt'];
@@ -506,7 +506,7 @@ type ContractBase = Omit<
                   readonly typeParams: { readonly precision: 3 };
                   readonly many: false;
                 };
-                readonly discrption: {
+                readonly description: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: true;
@@ -746,7 +746,7 @@ type ContractBase = Omit<
                   readonly typeParams: { readonly precision: 3 };
                 };
               };
-              readonly discrption: {
+              readonly description: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -796,7 +796,7 @@ type ContractBase = Omit<
                 readonly createdAt: { readonly column: 'created_at' };
                 readonly createdBy: { readonly column: 'created_by' };
                 readonly deletedAt: { readonly column: 'deleted_at' };
-                readonly discrption: { readonly column: 'discrption' };
+                readonly description: { readonly column: 'description' };
                 readonly id: { readonly column: 'id' };
                 readonly name: { readonly column: 'name' };
                 readonly updatedAt: { readonly column: 'updated_at' };

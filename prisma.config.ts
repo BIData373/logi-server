@@ -21,6 +21,8 @@ export default definePrismaConfig({
   },
   orm: ormConfig({
     contract: "./src/entities/**/*.prisma",
+    output: "./src/prisma/",
+
     db: {
       connection: process.env.DATABASE_URL!,
     },

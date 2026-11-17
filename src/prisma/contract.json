@@ -193,7 +193,7 @@
                   }
                 }
               },
-              "discrption": {
+              "description": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
@@ -269,8 +269,8 @@
                 "deletedAt": {
                   "column": "deleted_at"
                 },
-                "discrption": {
-                  "column": "discrption"
+                "description": {
+                  "column": "description"
                 },
                 "id": {
                   "column": "id"
@@ -563,7 +563,7 @@
                     "precision": 3
                   }
                 },
-                "discrption": {
+                "description": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": true
@@ -701,7 +701,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "aa066fa6b87d9bb7524432255ce910d8fa4d87b1be5b73caeecd6f7cc07c4feb"
+    "storageHash": "c6e21ae114be88762d1b2befc8e64f98fc32eae0201c2fc0bceebde63eb40488"
   },
   "capabilities": {
     "postgres": {
