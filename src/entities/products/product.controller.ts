@@ -40,6 +40,7 @@ export class ProductController {
     return await this.service.createProduct(product, user.id);
   }
 
+  @ApiOkResponse({ type: ProductDto })
   @Get()
   @ApiOperation({ operationId: "getAllProducts" })
   @ToSwaggerAndInstace(ProductDto, true)
@@ -55,6 +56,9 @@ export class ProductController {
     return product.context;
   }
 
+  @ApiOkResponse()
+  @ApiBody({ type: UpdateProductDto })
+  @ApiParam({ name: "id", type: Number })
   @Patch("/:id")
   @ApiOperation({ operationId: "updateProduct" })
   @ApiBody({ type: UpdateProductDto })
