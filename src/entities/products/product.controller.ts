@@ -22,7 +22,7 @@ export class ProductController {
 
   @Post()
   async createProduct(@Body() product: CreateProductDto) {
-    await this.service.createProduct(product);
+    return await this.service.createProduct(product);
   }
 
   @Get()
@@ -42,6 +42,6 @@ export class ProductController {
     @Param() product: GetProductDto,
     @Body() body: UpdateProductDto,
   ) {
-    await this.service.updateProduct(product.id, body);
+    return await this.service.updateProduct(product.id, body);
   }
 }

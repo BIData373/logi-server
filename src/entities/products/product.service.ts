@@ -11,7 +11,7 @@ export class ProductService {
   }
 
   async createProduct(product: CreateProductDto) {
-    await this.prisma.orm.Product.create(product);
+    return await this.prisma.orm.Product.create(product);
   }
 
   async updateProduct(
@@ -19,22 +19,24 @@ export class ProductService {
     { imagesToDelete, imagesToAdd, ...updates }: UpdateProductDto,
   ) {
     new Date();
+    let update;
     console.log(imagesToDelete);
     await this.prisma.db.transaction(async (tx) => {
-      const update = await tx.orm.public.Product.where({ id: id }).update({
+      update = await tx.orm.public.Product.where({ id: id }).update({
         ...updates,
         updatedAt: new Date(),
       });
 
       if (imagesToDelete)
-        await tx.orm.public.Product.where({ id }).update({
+        update = await tx.orm.public.Product.where({ id }).update({
           images: (images) => images.disconnect(imagesToDelete),
         });
 
       if (imagesToAdd)
-        await tx.orm.public.Product.where({ id }).update({
+        update = await tx.orm.public.Product.where({ id }).update({
           images: (images) => images.connect(imagesToAdd),
         });
     });
+    return update;
   }
 }
