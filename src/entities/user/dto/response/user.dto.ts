@@ -1,12 +1,13 @@
 import { Exclude, Expose } from "class-transformer";
+import { ExposeProperty } from "../../../common/deceretors/expose-property.decorator.js";
 @Exclude()
 export class UserDto {
-  @Expose()
+  @ExposeProperty()
   username: string;
 
-  @Expose()
+  @ExposeProperty()
   name: string;
 
-  @Expose()
+  @ExposeProperty()
   email: string;
 }
