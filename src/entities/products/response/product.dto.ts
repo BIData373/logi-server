@@ -14,5 +14,5 @@ export class ProductDto {
 
   @Expose()
   @Type(() => ImageDto)
-  images: [];
+  images: ImageDto[];
 }
