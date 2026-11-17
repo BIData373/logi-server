@@ -7,4 +7,6 @@ export class ImageDto {
 
   @Expose()
   url: string;
+  @Expose()
+  id: number;
 }

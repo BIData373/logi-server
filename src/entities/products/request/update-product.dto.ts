@@ -1,6 +1,12 @@
 import { Transform } from "class-transformer";
-import { IsArray, IsOptional, IsString } from "class-validator";
-import { transformToIdArr } from "../../common/functions/transform-arrey.js";
+import {
+  IsArray,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from "class-validator";
+import { EntityExist } from "../../common/deceretors/entity-exsist.decorator.js";
 
 export class UpdateProductDto {
   @IsOptional()
@@ -12,10 +18,14 @@ export class UpdateProductDto {
   name: string;
 
   @IsOptional()
-  @Transform(transformToIdArr)
-  imagesToDelete: { id: number }[];
+  @IsArray()
+  @IsPositive({ each: true })
+  @EntityExist("Image", { each: true })
+  imagesToDelete: number[];
 
   @IsOptional()
-  @Transform(transformToIdArr)
-  imagesToAdd: { id: number }[];
+  @IsArray()
+  @IsPositive({ each: true })
+  @EntityExist("Image", { each: true })
+  imagesToAdd: number[];
 }
