@@ -6,7 +6,15 @@ import type { CreateImageDto } from "./dto/request/create-image.dto.js";
 export class ImageService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createImage(image: CreateImageDto) {
-    return await this.prisma.orm.Image.create(image);
+  async createImage(
+    image: CreateImageDto,
+    createdBy: number,
+    productId: number,
+  ) {
+    return await this.prisma.orm.Image.create({
+      ...image,
+      createdBy,
+      productId,
+    });
   }
 }

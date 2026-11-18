@@ -1,4 +1,4 @@
-import { Type } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import {
   IsBoolean,
   IsEmail,
@@ -15,17 +15,9 @@ export class CreateImageDto {
   @IsString()
   name: string;
 
-  @IsEmail()
-  email: string;
-
+  @Transform((value) => {
+    return Boolean(value);
+  })
   @IsBoolean()
   isPrimary: boolean;
-
-  @Type(() => Number)
-  @IsPositive()
-  createdBy: number;
-
-  @Type(() => Number)
-  @IsPositive()
-  productId: number;
 }
