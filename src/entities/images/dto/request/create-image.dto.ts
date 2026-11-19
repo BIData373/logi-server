@@ -7,6 +7,7 @@ import {
   IsString,
   IsUrl,
 } from "class-validator";
+import { TransformToBoolean } from "../../../common/deceretors/transform-to-boolean.decorator.js";
 
 export class CreateImageDto {
   @IsUrl()
@@ -15,9 +16,7 @@ export class CreateImageDto {
   @IsString()
   name: string;
 
-  @Transform((value) => {
-    return Boolean(value);
-  })
+  @TransformToBoolean()
   @IsBoolean()
   isPrimary: boolean;
 }

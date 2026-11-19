@@ -13,14 +13,19 @@ import { UpdateProductDto } from "./request/update-product.dto.js";
 import { TransformPlainToInstance } from "class-transformer";
 import { ProductDto } from "./response/product.dto.js";
 import { GetProductDto } from "./request/get-product.dto.js";
+import { GetParamsDecerator } from "../common/deceretors/get-params.decerator.js";
+import type { GetUserDto } from "../user/dto/request/get-user.dto.js";
 
 @Controller("products")
 export class ProductController {
   constructor(private readonly service: ProductService) {}
 
-  @Post()
-  async createProduct(@Body() product: CreateProductDto) {
-    return await this.service.createProduct(product);
+  @Post("/:userId")
+  async createProduct(
+    @Body() product: CreateProductDto,
+    @GetParamsDecerator("userId") user: GetUserDto,
+  ) {
+    return await this.service.createProduct(product, user.id);
   }
 
   @Get()
