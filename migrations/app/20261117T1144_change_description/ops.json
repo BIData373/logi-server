@@ -1,0 +1,78 @@
+[
+  {
+    "id": "renameColumn.products.discrption",
+    "label": "Rename column \"products\".\"discrption\" to \"description\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "description",
+        "table": "products"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"discrption\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "products",
+          "discrption"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"discrption\" on \"products\""
+        }
+      },
+      {
+        "description": "ensure column \"description\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "products",
+          "description"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"description\" on \"products\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "rename column \"discrption\" to \"description\"",
+        "sql": "ALTER TABLE \"public\".\"products\" RENAME COLUMN \"discrption\" TO \"description\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"description\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "products",
+          "description"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"description\" on \"products\""
+        }
+      },
+      {
+        "description": "verify column \"discrption\" no longer exists",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "products",
+          "discrption"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"discrption\" on \"products\""
+        }
+      }
+    ]
+  }
+]

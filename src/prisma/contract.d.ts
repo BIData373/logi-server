@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'ab31ff6511aa1a7df96829554bb864d0d1f55bc35e74eceeb877a46903e39abd'>;
+  StorageHashBase<'c6e21ae114be88762d1b2befc8e64f98fc32eae0201c2fc0bceebde63eb40488'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -308,50 +308,50 @@ export type StorageColumnInputTypes = ColumnTypesFromStorage<
 >;
 
 export namespace Models {
-  export type public_Images = {
-    createdAt: FieldOutputTypes['public']['Images']['createdAt'];
-    createdBy: FieldOutputTypes['public']['Images']['createdBy'];
-    deletedAt: FieldOutputTypes['public']['Images']['deletedAt'];
-    id: FieldOutputTypes['public']['Images']['id'];
-    isPrimary: FieldOutputTypes['public']['Images']['isPrimary'];
-    name: FieldOutputTypes['public']['Images']['name'];
-    productId: FieldOutputTypes['public']['Images']['productId'];
-    updatedAt: FieldOutputTypes['public']['Images']['updatedAt'];
-    url: FieldOutputTypes['public']['Images']['url'];
-    product: public_Products;
-    users: public_Users;
-    readonly [RelationKeys]?: 'product' | 'users';
+  export type public_Image = {
+    createdAt: FieldOutputTypes['public']['Image']['createdAt'];
+    createdBy: FieldOutputTypes['public']['Image']['createdBy'];
+    deletedAt: FieldOutputTypes['public']['Image']['deletedAt'];
+    id: FieldOutputTypes['public']['Image']['id'];
+    isPrimary: FieldOutputTypes['public']['Image']['isPrimary'];
+    name: FieldOutputTypes['public']['Image']['name'];
+    productId: FieldOutputTypes['public']['Image']['productId'];
+    updatedAt: FieldOutputTypes['public']['Image']['updatedAt'];
+    url: FieldOutputTypes['public']['Image']['url'];
+    product: public_Product | null;
+    user: public_User;
+    readonly [RelationKeys]?: 'product' | 'user';
   };
-  export type public_Products = {
-    createdAt: FieldOutputTypes['public']['Products']['createdAt'];
-    createdBy: FieldOutputTypes['public']['Products']['createdBy'];
-    deletedAt: FieldOutputTypes['public']['Products']['deletedAt'];
-    discrption: FieldOutputTypes['public']['Products']['discrption'];
-    id: FieldOutputTypes['public']['Products']['id'];
-    name: FieldOutputTypes['public']['Products']['name'];
-    updatedAt: FieldOutputTypes['public']['Products']['updatedAt'];
-    images: public_Images[];
-    users: public_Users;
-    readonly [RelationKeys]?: 'images' | 'users';
+  export type public_Product = {
+    createdAt: FieldOutputTypes['public']['Product']['createdAt'];
+    createdBy: FieldOutputTypes['public']['Product']['createdBy'];
+    deletedAt: FieldOutputTypes['public']['Product']['deletedAt'];
+    description: FieldOutputTypes['public']['Product']['description'];
+    id: FieldOutputTypes['public']['Product']['id'];
+    name: FieldOutputTypes['public']['Product']['name'];
+    updatedAt: FieldOutputTypes['public']['Product']['updatedAt'];
+    images: public_Image[];
+    user: public_User;
+    readonly [RelationKeys]?: 'images' | 'user';
   };
-  export type public_Users = {
-    createdAt: FieldOutputTypes['public']['Users']['createdAt'];
-    email: FieldOutputTypes['public']['Users']['email'];
-    id: FieldOutputTypes['public']['Users']['id'];
-    name: FieldOutputTypes['public']['Users']['name'];
-    updatedAt: FieldOutputTypes['public']['Users']['updatedAt'];
-    username: FieldOutputTypes['public']['Users']['username'];
-    images: public_Images[];
-    products: public_Products[];
+  export type public_User = {
+    createdAt: FieldOutputTypes['public']['User']['createdAt'];
+    email: FieldOutputTypes['public']['User']['email'];
+    id: FieldOutputTypes['public']['User']['id'];
+    name: FieldOutputTypes['public']['User']['name'];
+    updatedAt: FieldOutputTypes['public']['User']['updatedAt'];
+    username: FieldOutputTypes['public']['User']['username'];
+    images: public_Image[];
+    products: public_Product[];
     readonly [RelationKeys]?: 'images' | 'products';
   };
 }
 
 export declare const models: {
   public: {
-    Images: Models.public_Images;
-    Products: Models.public_Products;
-    Users: Models.public_Users;
+    Image: Models.public_Image;
+    Product: Models.public_Product;
+    User: Models.public_User;
   };
 };
 
@@ -421,7 +421,7 @@ type ContractBase = Omit<
                 readonly product_id: {
                   readonly dataType: 'pg/int4';
                   readonly codecId: 'pg/int4@1';
-                  readonly nullable: false;
+                  readonly nullable: true;
                   readonly many: false;
                 };
                 readonly updated_at: {
@@ -506,7 +506,7 @@ type ContractBase = Omit<
                   readonly typeParams: { readonly precision: 3 };
                   readonly many: false;
                 };
-                readonly discrption: {
+                readonly description: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: true;
@@ -591,7 +591,7 @@ type ContractBase = Omit<
                 readonly name: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
-                  readonly nullable: true;
+                  readonly nullable: false;
                   readonly many: false;
                 };
                 readonly updated_at: {
@@ -604,7 +604,7 @@ type ContractBase = Omit<
                 readonly username: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
-                  readonly nullable: true;
+                  readonly nullable: false;
                   readonly many: false;
                 };
               };
@@ -626,15 +626,15 @@ type ContractBase = Omit<
   readonly target: 'postgres';
   readonly targetFamily: 'sql';
   readonly roots: {
-    readonly images: { readonly namespace: 'public' & NamespaceId; readonly model: 'Images' };
-    readonly products: { readonly namespace: 'public' & NamespaceId; readonly model: 'Products' };
-    readonly users: { readonly namespace: 'public' & NamespaceId; readonly model: 'Users' };
+    readonly images: { readonly namespace: 'public' & NamespaceId; readonly model: 'Image' };
+    readonly products: { readonly namespace: 'public' & NamespaceId; readonly model: 'Product' };
+    readonly users: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
   };
   readonly domain: {
     readonly namespaces: {
       readonly public: {
         readonly models: {
-          readonly Images: {
+          readonly Image: {
             readonly fields: {
               readonly createdAt: {
                 readonly nullable: false;
@@ -669,7 +669,7 @@ type ContractBase = Omit<
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
               readonly productId: {
-                readonly nullable: false;
+                readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
               readonly updatedAt: {
@@ -689,20 +689,17 @@ type ContractBase = Omit<
               readonly product: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Products';
+                  readonly model: 'Product';
                 };
                 readonly cardinality: 'N:1';
-                readonly nullable: false;
+                readonly nullable: true;
                 readonly on: {
                   readonly localFields: readonly ['productId'];
                   readonly targetFields: readonly ['id'];
                 };
               };
-              readonly users: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Users';
-                };
+              readonly user: {
+                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
                 readonly cardinality: 'N:1';
                 readonly nullable: false;
                 readonly on: {
@@ -727,7 +724,7 @@ type ContractBase = Omit<
               };
             };
           };
-          readonly Products: {
+          readonly Product: {
             readonly fields: {
               readonly createdAt: {
                 readonly nullable: false;
@@ -749,7 +746,7 @@ type ContractBase = Omit<
                   readonly typeParams: { readonly precision: 3 };
                 };
               };
-              readonly discrption: {
+              readonly description: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -774,7 +771,7 @@ type ContractBase = Omit<
               readonly images: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Images';
+                  readonly model: 'Image';
                 };
                 readonly cardinality: '1:N';
                 readonly on: {
@@ -782,11 +779,8 @@ type ContractBase = Omit<
                   readonly targetFields: readonly ['productId'];
                 };
               };
-              readonly users: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Users';
-                };
+              readonly user: {
+                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
                 readonly cardinality: 'N:1';
                 readonly nullable: false;
                 readonly on: {
@@ -802,14 +796,14 @@ type ContractBase = Omit<
                 readonly createdAt: { readonly column: 'created_at' };
                 readonly createdBy: { readonly column: 'created_by' };
                 readonly deletedAt: { readonly column: 'deleted_at' };
-                readonly discrption: { readonly column: 'discrption' };
+                readonly description: { readonly column: 'description' };
                 readonly id: { readonly column: 'id' };
                 readonly name: { readonly column: 'name' };
                 readonly updatedAt: { readonly column: 'updated_at' };
               };
             };
           };
-          readonly Users: {
+          readonly User: {
             readonly fields: {
               readonly createdAt: {
                 readonly nullable: false;
@@ -828,7 +822,7 @@ type ContractBase = Omit<
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
               readonly name: {
-                readonly nullable: true;
+                readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
               readonly updatedAt: {
@@ -840,7 +834,7 @@ type ContractBase = Omit<
                 };
               };
               readonly username: {
-                readonly nullable: true;
+                readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
             };
@@ -848,7 +842,7 @@ type ContractBase = Omit<
               readonly images: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Images';
+                  readonly model: 'Image';
                 };
                 readonly cardinality: '1:N';
                 readonly on: {
@@ -859,7 +853,7 @@ type ContractBase = Omit<
               readonly products: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Products';
+                  readonly model: 'Product';
                 };
                 readonly cardinality: '1:N';
                 readonly on: {

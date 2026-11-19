@@ -5,15 +5,15 @@
   "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
   "roots": {
     "images": {
-      "model": "Images",
+      "model": "Image",
       "namespace": "public"
     },
     "products": {
-      "model": "Products",
+      "model": "Product",
       "namespace": "public"
     },
     "users": {
-      "model": "Users",
+      "model": "User",
       "namespace": "public"
     }
   },
@@ -21,7 +21,7 @@
     "namespaces": {
       "public": {
         "models": {
-          "Images": {
+          "Image": {
             "fields": {
               "createdAt": {
                 "nullable": false,
@@ -72,7 +72,7 @@
                 }
               },
               "productId": {
-                "nullable": false,
+                "nullable": true,
                 "type": {
                   "codecId": "pg/int4@1",
                   "kind": "scalar"
@@ -99,7 +99,7 @@
             "relations": {
               "product": {
                 "cardinality": "N:1",
-                "nullable": false,
+                "nullable": true,
                 "on": {
                   "localFields": [
                     "productId"
@@ -109,11 +109,11 @@
                   ]
                 },
                 "to": {
-                  "model": "Products",
+                  "model": "Product",
                   "namespace": "public"
                 }
               },
-              "users": {
+              "user": {
                 "cardinality": "N:1",
                 "nullable": false,
                 "on": {
@@ -125,7 +125,7 @@
                   ]
                 },
                 "to": {
-                  "model": "Users",
+                  "model": "User",
                   "namespace": "public"
                 }
               }
@@ -164,7 +164,7 @@
               "table": "images"
             }
           },
-          "Products": {
+          "Product": {
             "fields": {
               "createdAt": {
                 "nullable": false,
@@ -193,7 +193,7 @@
                   }
                 }
               },
-              "discrption": {
+              "description": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
@@ -237,11 +237,11 @@
                   ]
                 },
                 "to": {
-                  "model": "Images",
+                  "model": "Image",
                   "namespace": "public"
                 }
               },
-              "users": {
+              "user": {
                 "cardinality": "N:1",
                 "nullable": false,
                 "on": {
@@ -253,7 +253,7 @@
                   ]
                 },
                 "to": {
-                  "model": "Users",
+                  "model": "User",
                   "namespace": "public"
                 }
               }
@@ -269,8 +269,8 @@
                 "deletedAt": {
                   "column": "deleted_at"
                 },
-                "discrption": {
-                  "column": "discrption"
+                "description": {
+                  "column": "description"
                 },
                 "id": {
                   "column": "id"
@@ -286,7 +286,7 @@
               "table": "products"
             }
           },
-          "Users": {
+          "User": {
             "fields": {
               "createdAt": {
                 "nullable": false,
@@ -313,7 +313,7 @@
                 }
               },
               "name": {
-                "nullable": true,
+                "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
@@ -330,7 +330,7 @@
                 }
               },
               "username": {
-                "nullable": true,
+                "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
@@ -349,7 +349,7 @@
                   ]
                 },
                 "to": {
-                  "model": "Images",
+                  "model": "Image",
                   "namespace": "public"
                 }
               },
@@ -364,7 +364,7 @@
                   ]
                 },
                 "to": {
-                  "model": "Products",
+                  "model": "Product",
                   "namespace": "public"
                 }
               }
@@ -452,7 +452,7 @@
                 "product_id": {
                   "codecId": "pg/int4@1",
                   "dataType": "pg/int4",
-                  "nullable": false
+                  "nullable": true
                 },
                 "updated_at": {
                   "codecId": "pg/timestamptz-date@1",
@@ -563,7 +563,7 @@
                     "precision": 3
                   }
                 },
-                "discrption": {
+                "description": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": true
@@ -662,7 +662,7 @@
                 "name": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
-                  "nullable": true
+                  "nullable": false
                 },
                 "updated_at": {
                   "codecId": "pg/timestamptz-date@1",
@@ -675,7 +675,7 @@
                 "username": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
-                  "nullable": true
+                  "nullable": false
                 }
               },
               "foreignKeys": [],
@@ -701,7 +701,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "ab31ff6511aa1a7df96829554bb864d0d1f55bc35e74eceeb877a46903e39abd"
+    "storageHash": "c6e21ae114be88762d1b2befc8e64f98fc32eae0201c2fc0bceebde63eb40488"
   },
   "capabilities": {
     "postgres": {

@@ -7,6 +7,12 @@ import type { Contract } from "./contract.d.ts";
 import contractJson from "./contract.json" with { type: "json" };
 import service from "../service.js";
 
+if (!process.env.DATABASE_URL) {
+  try {
+    process.loadEnvFile();
+  } catch {}
+}
+
 export const contract = contractFromJson<Contract>(contractJson);
 
 function loadComposerDatabase() {
