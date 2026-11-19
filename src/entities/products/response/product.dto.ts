@@ -5,15 +5,15 @@ import { ImageDto } from "../../images/dto/response/image.dto.js";
 @Exclude()
 export class ProductDto {
   @ExposeProperty()
-  @Expose()
+  id: number;
+
+  @ExposeProperty()
   name: string;
 
   @ExposeProperty()
-  @Expose()
   createdBy: number;
 
   @ExposeProperty()
-  @Expose()
   description: string;
 
   @ExposeProperty({ type: ImageDto, isArray: true })

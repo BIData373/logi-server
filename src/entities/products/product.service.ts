@@ -11,8 +11,15 @@ export class ProductService {
     return this.prisma.orm.Product.include("images").all();
   }
 
-  async createProduct(product: CreateProductDto, id: number) {
-    return await this.prisma.orm.Product.create({ id, ...product });
+  async createProduct(
+    { imagesToAdd, ...product }: CreateProductDto,
+    id: number,
+  ) {
+    return await this.prisma.orm.Product.create({
+      createdBy: id,
+      ...product,
+      images: (images) => images.connect(transformToIdArray(imagesToAdd)),
+    });
   }
 
   async updateProduct(
