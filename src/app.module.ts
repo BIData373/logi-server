@@ -8,6 +8,9 @@ import { ProductController } from "./entities/products/product.controller.js";
 import { UserController } from "./entities/user/user.controller.js";
 import { UserService } from "./entities/user/user.service.js";
 import { entityExistsConstraint } from "./entities/common/deceretors/entity-exsist.decorator.js";
+import { VariantModule } from "./entities/variant/variant.module.js";
+import { VariantController } from "./entities/variant/variant.controller.js";
+import { VariantService } from "./entities/variant/variant.service.js";
 
 @Module({
   imports: [],
@@ -16,6 +19,7 @@ import { entityExistsConstraint } from "./entities/common/deceretors/entity-exsi
     UserController,
     ProductController,
     ImageController,
+    VariantController,
   ],
   providers: [
     PrismaService,
@@ -23,6 +27,7 @@ import { entityExistsConstraint } from "./entities/common/deceretors/entity-exsi
     ProductService,
     ImageService,
     entityExistsConstraint,
+    VariantService,
   ],
 })
 export class AppModule {}

@@ -16,17 +16,15 @@ import { number } from "@prisma/composer";
 @Controller("images")
 export class ImageController {
   constructor(private readonly service: ImageService) {}
+  @Post("/:createdBy")
   @ApiBody({ type: CreateImageDto })
-  @Post(":productId/:createdBy")
   @ApiOperation({ operationId: "createImage" })
-  @ApiParam({ name: "productId", type: Number })
   @ApiParam({ name: "createdBy", type: Number })
   @ToSwaggerAndInstace(ImageDto)
   async createImage(
     @Body() image: CreateImageDto,
-    @GetParamsDecerator("productId") product: GetProductDto,
     @GetParamsDecerator("createdBy") user: GetUserDto,
   ) {
-    return await this.service.createImage(image, user.id, product.id);
+    return await this.service.createImage(image, user.id);
   }
 }

@@ -6,6 +6,6 @@ import { GetContextDto } from "../../../common/dto/request/get-context.dto.js";
 export class GetProductDto extends GetContextDto {
   @Type(() => Number)
   @IsPositive()
-  @EntityExist("Product")
+  @EntityExist("Product", {}, ["variants"])
   id: number;
 }

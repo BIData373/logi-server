@@ -47,4 +47,13 @@ export class ProductService {
     });
     return update;
   }
+
+  async deleteProduct(id: number) {
+    new Date();
+    let update;
+    update = await this.prisma.orm.Product.where({ id: id }).update({
+      deletedAt: new Date(),
+    });
+    return update;
+  }
 }

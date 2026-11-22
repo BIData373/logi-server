@@ -1,28 +1,21 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
-  Inject,
   Param,
   Patch,
   Post,
 } from "@nestjs/common";
-import {
-  ApiBody,
-  ApiOkResponse,
-  ApiOperation,
-  ApiParam,
-} from "@nestjs/swagger";
-import { TransformPlainToInstance } from "class-transformer";
-import { ProductService } from "./product.service.js";
-import { ProductDto } from "./dto/response/product.dto.js";
+import { ApiBody, ApiOperation, ApiParam } from "@nestjs/swagger";
 import { GetParamsDecerator } from "../common/deceretors/get-params.decerator.js";
-import type { GetUserDto } from "../user/dto/request/get-user.dto.js";
-import { UserDto } from "../user/dto/response/user.dto.js";
 import { ToSwaggerAndInstace } from "../common/deceretors/to-swagger-and-instace.decorator.js";
+import type { GetUserDto } from "../user/dto/request/get-user.dto.js";
 import { CreateProductDto } from "./dto/request/create-product.dto.js";
+import { GetProductDto } from "./dto/request/get-product.dto.js";
 import { UpdateProductDto } from "./dto/request/update-product.dto.js";
-import type { GetProductDto } from "./dto/request/get-product.dto.js";
+import { ProductDto } from "./dto/response/product.dto.js";
+import { ProductService } from "./product.service.js";
 
 @Controller("products")
 export class ProductController {
@@ -40,7 +33,6 @@ export class ProductController {
     return await this.service.createProduct(product, user.id);
   }
 
-  @ApiOkResponse({ type: ProductDto })
   @Get()
   @ApiOperation({ operationId: "getAllProducts" })
   @ToSwaggerAndInstace(ProductDto, true)
@@ -56,7 +48,6 @@ export class ProductController {
     return product.context;
   }
 
-  @ApiOkResponse()
   @ApiBody({ type: UpdateProductDto })
   @ApiParam({ name: "id", type: Number })
   @Patch("/:id")
@@ -69,5 +60,13 @@ export class ProductController {
     @Body() body: UpdateProductDto,
   ) {
     return await this.service.updateProduct(product.id, body);
+  }
+
+  @Delete("/:id")
+  @ApiParam({ name: "id", type: Number })
+  @ApiOperation({ operationId: "deleteProduct" })
+  @ToSwaggerAndInstace(ProductDto)
+  async deleteProduct(@Param() product: GetProductDto) {
+    return await this.service.deleteProduct(product.id);
   }
 }

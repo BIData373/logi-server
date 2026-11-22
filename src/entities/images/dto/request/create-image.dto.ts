@@ -3,12 +3,14 @@ import {
   IsBoolean,
   IsEmail,
   IsNumber,
+  IsOptional,
   IsPositive,
   IsString,
   IsUrl,
 } from "class-validator";
 import { TransformToBoolean } from "../../../common/deceretors/transform-to-boolean.decorator.js";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { EntityExist } from "../../../common/deceretors/entity-exsist.decorator.js";
 
 export class CreateImageDto {
   @ApiProperty()
@@ -23,4 +25,10 @@ export class CreateImageDto {
   @TransformToBoolean()
   @IsBoolean()
   isPrimary: boolean;
+
+  @ApiPropertyOptional({ type: Number })
+  @EntityExist("Product")
+  @IsOptional()
+  @IsPositive()
+  productId: number;
 }

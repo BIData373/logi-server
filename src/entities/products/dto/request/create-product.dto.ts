@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsArray, IsPositive, IsString } from "class-validator";
+import { IsArray, IsOptional, IsPositive, IsString } from "class-validator";
 import { EntityExist } from "../../../common/deceretors/entity-exsist.decorator.js";
 
 export class CreateProductDto {
@@ -12,6 +12,7 @@ export class CreateProductDto {
   description: string;
 
   @ApiPropertyOptional({ type: Number, isArray: true })
+  @IsOptional()
   @IsArray()
   @IsPositive({ each: true })
   @EntityExist("Image", { each: true })
