@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { PrismaService } from "../../prisma.service.js";
-import type { CreateProductDto } from "./request/create-product.dto.js";
-import type { UpdateProductDto } from "./request/update-product.dto.js";
 import { transformToIdArray } from "../common/functions/transform-array.js";
+import type { UpdateProductDto } from "./dto/request/update-product.dto.js";
+import type { CreateProductDto } from "./dto/request/create-product.dto.js";
 
 @Injectable()
 export class ProductService {
