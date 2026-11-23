@@ -25,7 +25,7 @@ export class OrderItemDto {
   @ExposeProperty()
   createdAt: Date;
 
-  @ExposeProperty({ type: VariantDto, isArray: true })
+  @ExposeProperty({ type: VariantDto })
   @Type(() => VariantDto)
-  variants: VariantDto[];
+  variant: VariantDto;
 }
