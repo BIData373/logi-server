@@ -10,6 +10,10 @@ model Order {
     updatedAt   DateTime?  @map("updated_at")
     estimatedDate   DateTime?  @map("estimated_date")
     orderItems orderItem[]? 
+    user      User     @relation(fields: [createdBy], references: [id])
+
+    @@index([createdBy], name: "order_created_By")
+
     @@map("orders")
 
 

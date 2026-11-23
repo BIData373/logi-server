@@ -10,6 +10,7 @@ model User {
   username  String
   images    Image[]?
   products  Product[]?
+  orders    Order[]?
 
   @@map("users")
 }

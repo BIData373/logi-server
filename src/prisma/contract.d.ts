@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'4f1277cfe21b75013108df6c3369341f79e7955ed890b51eda5bee7f86f5527b'>;
+  StorageHashBase<'d89c94d7402e3623f4237ea7689e4a3adc8e5d9439adb0f1e831dbdff95448fb'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -331,7 +331,8 @@ export namespace Models {
     status: FieldOutputTypes['public']['Order']['status'];
     updatedAt: FieldOutputTypes['public']['Order']['updatedAt'];
     orderItems: public_orderItem[];
-    readonly [RelationKeys]?: 'orderItems';
+    user: public_User;
+    readonly [RelationKeys]?: 'orderItems' | 'user';
   };
   export type public_Product = {
     createdAt: FieldOutputTypes['public']['Product']['createdAt'];
@@ -354,8 +355,9 @@ export namespace Models {
     updatedAt: FieldOutputTypes['public']['User']['updatedAt'];
     username: FieldOutputTypes['public']['User']['username'];
     images: public_Image[];
+    orders: public_Order[];
     products: public_Product[];
-    readonly [RelationKeys]?: 'images' | 'products';
+    readonly [RelationKeys]?: 'images' | 'orders' | 'products';
   };
   export type public_Variant = {
     createdAt: FieldOutputTypes['public']['Variant']['createdAt'];
@@ -376,6 +378,7 @@ export namespace Models {
     createdAt: FieldOutputTypes['public']['orderItem']['createdAt'];
     createdBy: FieldOutputTypes['public']['orderItem']['createdBy'];
     deletedAt: FieldOutputTypes['public']['orderItem']['deletedAt'];
+    estimatedDate: FieldOutputTypes['public']['orderItem']['estimatedDate'];
     id: FieldOutputTypes['public']['orderItem']['id'];
     orderId: FieldOutputTypes['public']['orderItem']['orderId'];
     quantity: FieldOutputTypes['public']['orderItem']['quantity'];
@@ -551,6 +554,13 @@ type ContractBase = Omit<
                   readonly typeParams: { readonly precision: 3 };
                   readonly many: false;
                 };
+                readonly estimated_date: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: true;
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
                 readonly id: {
                   readonly dataType: 'pg/int4';
                   readonly codecId: 'pg/int4@1';
@@ -713,8 +723,28 @@ type ContractBase = Omit<
               };
               primaryKey: { readonly columns: readonly ['id'] };
               uniques: readonly [];
-              indexes: readonly [];
-              foreignKeys: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'order_created_By_e13bb8bf';
+                  readonly prefix: 'order_created_By';
+                  readonly columns: readonly ['created_by'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'orders';
+                    readonly columns: readonly ['created_by'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'users';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+              ];
             };
             readonly products: {
               columns: {
@@ -1136,6 +1166,15 @@ type ContractBase = Omit<
                   readonly targetFields: readonly ['orderId'];
                 };
               };
+              readonly user: {
+                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['createdBy'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
             };
             readonly storage: {
               readonly table: 'orders';
@@ -1166,6 +1205,14 @@ type ContractBase = Omit<
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
               readonly deletedAt: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly estimatedDate: {
                 readonly nullable: true;
                 readonly type: {
                   readonly kind: 'scalar';
@@ -1244,6 +1291,7 @@ type ContractBase = Omit<
                 readonly createdAt: { readonly column: 'created_at' };
                 readonly createdBy: { readonly column: 'created_by' };
                 readonly deletedAt: { readonly column: 'deleted_at' };
+                readonly estimatedDate: { readonly column: 'estimated_date' };
                 readonly id: { readonly column: 'id' };
                 readonly orderId: { readonly column: 'order_id' };
                 readonly quantity: { readonly column: 'quantity' };
@@ -1383,6 +1431,17 @@ type ContractBase = Omit<
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
                   readonly model: 'Image';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['createdBy'];
+                };
+              };
+              readonly orders: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Order';
                 };
                 readonly cardinality: '1:N';
                 readonly on: {
