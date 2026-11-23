@@ -1,0 +1,20 @@
+import { Inject, Injectable } from "@nestjs/common";
+import { PrismaService } from "../../prisma.service.js";
+import type { CreateImageDto } from "./dto/request/create-image.dto.js";
+
+@Injectable()
+export class ImageService {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async createImage(
+    image: CreateImageDto,
+    createdBy: number,
+    productId: number,
+  ) {
+    return await this.prisma.orm.Image.create({
+      ...image,
+      createdBy,
+      productId,
+    });
+  }
+}
