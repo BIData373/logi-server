@@ -52,8 +52,6 @@ export class ProductController {
   @ApiParam({ name: "id", type: Number })
   @Patch("/:id")
   @ApiOperation({ operationId: "updateProduct" })
-  @ApiBody({ type: UpdateProductDto })
-  @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(ProductDto)
   async updateProduct(
     @Param() product: GetProductDto,
