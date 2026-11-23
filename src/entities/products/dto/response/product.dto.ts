@@ -21,7 +21,7 @@ export class ProductDto {
   @Type(() => ImageDto)
   images: ImageDto[];
 
-  @ExposeProperty({ type: ImageDto, isArray: true })
+  @ExposeProperty({ type: VariantDto, isArray: true })
   @Type(() => VariantDto)
   variants: VariantDto[];
 }
