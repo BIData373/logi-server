@@ -1,5 +1,6 @@
-import { Exclude } from "class-transformer";
+import { Exclude, Type } from "class-transformer";
 import { ExposeProperty } from "../../../common/deceretors/expose-property.decorator.js";
+import { VariantDto } from "../../../variant/dto/response/variant.dto.js";
 
 @Exclude()
 export class OrderItemDto {
@@ -23,4 +24,8 @@ export class OrderItemDto {
 
   @ExposeProperty()
   createdAt: Date;
+
+  @ExposeProperty({ type: VariantDto, isArray: true })
+  @Type(() => VariantDto)
+  variants: VariantDto[];
 }

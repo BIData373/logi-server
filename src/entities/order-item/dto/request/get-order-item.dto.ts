@@ -6,6 +6,6 @@ import { GetContextDto } from "../../../common/dto/request/get-context.dto.js";
 export class GetOrderItemDto extends GetContextDto {
   @Type(() => Number)
   @IsPositive()
-  @EntityExist("orderItem")
+  @EntityExist("orderItem", {}, ["variant"])
   id: number;
 }
