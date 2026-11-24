@@ -54,9 +54,9 @@ export class VariantController {
   }
 
   @Patch("/:id")
-  @ApiBody({ type: UpdateVariantDto })
   @ApiParam({ name: "id", type: Number })
   @ApiOperation({ operationId: "updateVariant" })
+  @ApiBody({ type: UpdateVariantDto })
   @ToSwaggerAndInstace(VariantDto)
   async updateVariant(
     @Param() variant: GetVariantDto,

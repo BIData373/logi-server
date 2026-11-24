@@ -1,0 +1,59 @@
+[
+  {
+    "id": "alterType.category.updated_by",
+    "label": "Alter type of \"category\".\"updated_by\" to int4",
+    "operationClass": "data",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "updated_by",
+        "table": "category"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"updated_by\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "category",
+          "updated_by"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"updated_by\" on \"category\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "alter type of \"updated_by\" to int4",
+        "sql": "ALTER TABLE \"public\".\"category\" ALTER COLUMN \"updated_by\" TYPE int4 USING NULL::int4",
+        "meta": {
+          "convertedColumn": {
+            "table": "category",
+            "column": "updated_by",
+            "by": "conversion"
+          }
+        }
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"updated_by\" has type \"integer\"",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_attribute\" AS \"a\" INNER JOIN \"pg_class\" AS \"c\" ON \"c\".\"oid\" = \"a\".\"attrelid\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"relnamespace\" WHERE (\"n\".\"nspname\" = $1 AND \"c\".\"relname\" = $2 AND \"a\".\"attname\" = $3 AND (format_type(\"a\".\"atttypid\", \"a\".\"atttypmod\")) = $4 AND NOT (\"a\".\"attisdropped\"))) AS \"result\"",
+        "params": [
+          "public",
+          "category",
+          "updated_by",
+          "integer"
+        ]
+      }
+    ],
+    "meta": {
+      "warning": "TABLE_REWRITE"
+    }
+  }
+]

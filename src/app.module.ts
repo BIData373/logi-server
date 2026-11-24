@@ -22,6 +22,8 @@ import { OrderItemController } from "./entities/order-item/order-item.controller
 import { CartItemService } from "./entities/cart-item/cart-item.service.js";
 import { CartItemController } from "./entities/cart-item/cart-item.controller.js";
 import { AuthMiddleware } from "./entities/common/middleware/auth.middleware.js";
+import { CategoriesService } from "./entities/categories/categories.service.js";
+import { CategoriesController } from "./entities/categories/categories.controller.js";
 
 @Module({
   imports: [],
@@ -34,6 +36,7 @@ import { AuthMiddleware } from "./entities/common/middleware/auth.middleware.js"
     OrderController,
     OrderItemController,
     CartItemController,
+    CategoriesController,
   ],
   providers: [
     PrismaService,
@@ -45,6 +48,7 @@ import { AuthMiddleware } from "./entities/common/middleware/auth.middleware.js"
     OrderService,
     OrderItemService,
     CartItemService,
+    CategoriesService,
   ],
 })
 export class AppModule implements NestModule {

@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'a7f2b7b91702d1b16207faadaf1a36e99e417e0c29ba83ad2b69c99a6ebdcf8d'>;
+  StorageHashBase<'6e809506dc27efc84881f4f1e5aebefcb885231a901a3c55836b727ec4675de2'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -321,7 +321,22 @@ export namespace Models {
     variant: public_Variant;
     readonly [RelationKeys]?: 'user' | 'variant';
   };
+  export type public_Category = {
+    createdAt: FieldOutputTypes['public']['Category']['createdAt'];
+    createdBy: FieldOutputTypes['public']['Category']['createdBy'];
+    deletedAt: FieldOutputTypes['public']['Category']['deletedAt'];
+    id: FieldOutputTypes['public']['Category']['id'];
+    imageId: FieldOutputTypes['public']['Category']['imageId'];
+    name: FieldOutputTypes['public']['Category']['name'];
+    slug: FieldOutputTypes['public']['Category']['slug'];
+    updatedAt: FieldOutputTypes['public']['Category']['updatedAt'];
+    updatedBy: FieldOutputTypes['public']['Category']['updatedBy'];
+    image: public_Image;
+    user: public_User;
+    readonly [RelationKeys]?: 'image' | 'user';
+  };
   export type public_Image = {
+    categoryId: FieldOutputTypes['public']['Image']['categoryId'];
     createdAt: FieldOutputTypes['public']['Image']['createdAt'];
     createdBy: FieldOutputTypes['public']['Image']['createdBy'];
     deletedAt: FieldOutputTypes['public']['Image']['deletedAt'];
@@ -331,9 +346,10 @@ export namespace Models {
     productId: FieldOutputTypes['public']['Image']['productId'];
     updatedAt: FieldOutputTypes['public']['Image']['updatedAt'];
     url: FieldOutputTypes['public']['Image']['url'];
+    category: public_Category | null;
     product: public_Product | null;
     user: public_User;
-    readonly [RelationKeys]?: 'product' | 'user';
+    readonly [RelationKeys]?: 'category' | 'product' | 'user';
   };
   export type public_Order = {
     createdAt: FieldOutputTypes['public']['Order']['createdAt'];
@@ -409,6 +425,7 @@ export namespace Models {
 export declare const models: {
   public: {
     CartItem: Models.public_CartItem;
+    Category: Models.public_Category;
     Image: Models.public_Image;
     Order: Models.public_Order;
     OrderItem: Models.public_OrderItem;
@@ -540,8 +557,124 @@ type ContractBase = Omit<
                 },
               ];
             };
+            readonly category: {
+              columns: {
+                readonly created_at: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly created_by: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly deleted_at: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: true;
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly id: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                  readonly many: false;
+                };
+                readonly image_id: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly name: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly slug: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly updated_at: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: true;
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly updated_by: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id']; readonly name: 'category_pkey' };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'category_created_by_idx_e13bb8bf';
+                  readonly prefix: 'category_created_by_idx';
+                  readonly columns: readonly ['created_by'];
+                  readonly unique: false;
+                },
+                {
+                  readonly name: 'category_image_id_idx_07d46388';
+                  readonly prefix: 'category_image_id_idx';
+                  readonly columns: readonly ['image_id'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'category';
+                    readonly columns: readonly ['created_by'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'users';
+                    readonly columns: readonly ['id'];
+                  };
+                  readonly name: 'category_created_by_fkey';
+                },
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'category';
+                    readonly columns: readonly ['image_id'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'images';
+                    readonly columns: readonly ['id'];
+                  };
+                  readonly name: 'category_image_fkey';
+                },
+              ];
+            };
             readonly images: {
               columns: {
+                readonly category_id: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
                 readonly created_at: {
                   readonly dataType: 'pg/timestamptz';
                   readonly codecId: 'pg/timestamptz-date@1';
@@ -609,6 +742,12 @@ type ContractBase = Omit<
               uniques: readonly [];
               indexes: readonly [
                 {
+                  readonly name: 'images_category_id_idx_da7213d4';
+                  readonly prefix: 'images_category_id_idx';
+                  readonly columns: readonly ['category_id'];
+                  readonly unique: false;
+                },
+                {
                   readonly name: 'images_created_by_idx_e13bb8bf';
                   readonly prefix: 'images_created_by_idx';
                   readonly columns: readonly ['created_by'];
@@ -647,6 +786,19 @@ type ContractBase = Omit<
                     readonly columns: readonly ['id'];
                   };
                   readonly name: 'images_product_id_fkey';
+                },
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'images';
+                    readonly columns: readonly ['category_id'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'category';
+                    readonly columns: readonly ['id'];
+                  };
+                  readonly name: 'images_category_id_fkey';
                 },
               ];
             };
@@ -1123,6 +1275,7 @@ type ContractBase = Omit<
   readonly targetFamily: 'sql';
   readonly roots: {
     readonly cart_items: { readonly namespace: 'public' & NamespaceId; readonly model: 'CartItem' };
+    readonly category: { readonly namespace: 'public' & NamespaceId; readonly model: 'Category' };
     readonly images: { readonly namespace: 'public' & NamespaceId; readonly model: 'Image' };
     readonly order_items: {
       readonly namespace: 'public' & NamespaceId;
@@ -1222,8 +1375,102 @@ type ContractBase = Omit<
               };
             };
           };
+          readonly Category: {
+            readonly fields: {
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly createdBy: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly deletedAt: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly imageId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly name: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly slug: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly updatedAt: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly updatedBy: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+            };
+            readonly relations: {
+              readonly image: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Image';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['imageId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+              readonly user: {
+                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['createdBy'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'category';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly createdAt: { readonly column: 'created_at' };
+                readonly createdBy: { readonly column: 'created_by' };
+                readonly deletedAt: { readonly column: 'deleted_at' };
+                readonly id: { readonly column: 'id' };
+                readonly imageId: { readonly column: 'image_id' };
+                readonly name: { readonly column: 'name' };
+                readonly slug: { readonly column: 'slug' };
+                readonly updatedAt: { readonly column: 'updated_at' };
+                readonly updatedBy: { readonly column: 'updated_by' };
+              };
+            };
+          };
           readonly Image: {
             readonly fields: {
+              readonly categoryId: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
               readonly createdAt: {
                 readonly nullable: false;
                 readonly type: {
@@ -1274,6 +1521,18 @@ type ContractBase = Omit<
               };
             };
             readonly relations: {
+              readonly category: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Category';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: true;
+                readonly on: {
+                  readonly localFields: readonly ['categoryId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
               readonly product: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
@@ -1300,6 +1559,7 @@ type ContractBase = Omit<
               readonly table: 'images';
               readonly namespaceId: 'public';
               readonly fields: {
+                readonly categoryId: { readonly column: 'category_id' };
                 readonly createdAt: { readonly column: 'created_at' };
                 readonly createdBy: { readonly column: 'created_by' };
                 readonly deletedAt: { readonly column: 'deleted_at' };
