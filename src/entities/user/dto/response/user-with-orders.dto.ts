@@ -3,7 +3,7 @@ import { ExposeProperty } from "../../../common/decorators/expose-property.decor
 import { UserDto } from "./user.dto.js";
 import { OrderDto } from "../../../order/dto/response/order.dto.js";
 @Exclude()
-export class UserDtoWithOrders extends UserDto {
+export class UserWithOrdersDto extends UserDto {
   @ExposeProperty({ type: OrderDto, isArray: true })
   @Type(() => OrderDto)
   orders: OrderDto[];

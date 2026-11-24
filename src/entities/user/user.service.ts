@@ -19,4 +19,8 @@ export class UserService {
       ),
     ).first({ id });
   }
+
+  async getUserCart(id: number) {
+    return await this.prisma.orm.User.include("cartItem").first({ id });
+  }
 }
