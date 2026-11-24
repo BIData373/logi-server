@@ -22,12 +22,11 @@ import { UpdateCartItemDto } from "./dto/request/update-cart-item.dto.js";
 export class CartItemController {
   constructor(private readonly cartItemService: CartItemService) {}
 
-  @Post(":userId/:orderId/:variantId")
+  @Post(":userId/:variantId")
   @ApiBody({ type: CreateCartItemDto })
   @ApiOperation({ operationId: "createOrderItem" })
   @ApiParam({ name: "userId", type: Number })
   @ApiParam({ name: "variantId", type: Number })
-  @ApiParam({ name: "orderId", type: Number })
   @ToSwaggerAndInstace(CartItemDto)
   async createProduct(
     @Body() cartItem: CreateCartItemDto,
