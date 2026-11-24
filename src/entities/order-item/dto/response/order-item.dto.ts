@@ -1,5 +1,5 @@
 import { Exclude, Type } from "class-transformer";
-import { ExposeProperty } from "../../../common/deceretors/expose-property.decorator.js";
+import { ExposeProperty } from "../../../common/decorators/expose-property.decorator.js";
 import { VariantDto } from "../../../variant/dto/response/variant.dto.js";
 
 @Exclude()
@@ -8,7 +8,7 @@ export class OrderItemDto {
   id: number;
 
   @ExposeProperty()
-  orderId: string;
+  orderId: number;
 
   @ExposeProperty()
   createdBy: number;

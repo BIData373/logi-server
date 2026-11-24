@@ -13,9 +13,9 @@ import {
   ApiOperation,
   ApiParam,
 } from "@nestjs/swagger";
-import { ToSwaggerAndInstace } from "../common/deceretors/to-swagger-and-instace.decorator.js";
-import { CreateVariantDto } from "./dto/request/create-varient.dto.js";
-import { GetParamsDecerator } from "../common/deceretors/get-params.decerator.js";
+import { ToSwaggerAndInstace } from "../common/decorators/to-swagger-and-instace.decorator.js";
+import { CreateVariantDto } from "./dto/request/create-variant.dto.js";
+import { GetParamsDecerator } from "../common/decorators/get-params.decorator.js";
 import { GetUserDto } from "../user/dto/request/get-user.dto.js";
 import { VariantService } from "./variant.service.js";
 import { GetProductDto } from "../products/dto/request/get-product.dto.js";

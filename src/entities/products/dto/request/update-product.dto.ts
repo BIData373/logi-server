@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { IsArray, IsOptional, IsPositive, IsString } from "class-validator";
-import { EntityExist } from "../../../common/deceretors/entity-exsist.decorator.js";
+import { EntityExist } from "../../../common/decorators/entity-exsist.decorator.js";
 
 export class UpdateProductDto {
   @ApiPropertyOptional()

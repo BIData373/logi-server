@@ -7,12 +7,12 @@ import {
   ApiOperation,
   ApiParam,
 } from "@nestjs/swagger";
-import { ToSwaggerAndInstace } from "../common/deceretors/to-swagger-and-instace.decorator.js";
+import { ToSwaggerAndInstace } from "../common/decorators/to-swagger-and-instace.decorator.js";
 import { UserDto } from "./dto/response/user.dto.js";
 import { OrderDto } from "../order/dto/response/order.dto.js";
 import { GetUserDto } from "./dto/request/get-user.dto.js";
 import { GetUserOrdersDto } from "./dto/request/get-user-orders.dto.js";
-import type { UserDtoWithOrders } from "./dto/response/user-with-orders.js";
+import type { UserDtoWithOrders } from "./dto/response/user-with-orders.dto.js";
 
 @Controller("users")
 export class UserController {

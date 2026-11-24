@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller.js";
-import { entityExistsConstraint } from "./entities/common/deceretors/entity-exsist.decorator.js";
+import { entityExistsConstraint } from "./entities/common/decorators/entity-exsist.decorator.js";
 import { ImageController } from "./entities/images/image.controller.js";
 import { ImageService } from "./entities/images/image.service.js";
 import { ProductController } from "./entities/products/product.controller.js";

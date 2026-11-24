@@ -8,8 +8,8 @@ import {
   Post,
 } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiParam } from "@nestjs/swagger";
-import { ToSwaggerAndInstace } from "../common/deceretors/to-swagger-and-instace.decorator.js";
-import { GetParamsDecerator } from "../common/deceretors/get-params.decerator.js";
+import { ToSwaggerAndInstace } from "../common/decorators/to-swagger-and-instace.decorator.js";
+import { GetParamsDecerator } from "../common/decorators/get-params.decorator.js";
 import { GetUserDto } from "../user/dto/request/get-user.dto.js";
 import { GetVariantDto } from "../variant/dto/request/get-variant.dto.js";
 import { CartItemService } from "./cart-item.service.js";
@@ -45,7 +45,7 @@ export class CartItemController {
   @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(CartItemDto)
   async getVariantById(@Param("id") id: number) {
-    return this.cartItemService.getCartItemById(id);
+    return await this.cartItemService.getCartItemById(id);
   }
 
   @Patch("/:id")

@@ -7,8 +7,9 @@ import type { CreateProductDto } from "./dto/request/create-product.dto.js";
 @Injectable()
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
+
   async findAll() {
-    return this.prisma.orm.Product.include("images").all();
+    return await this.prisma.orm.Product.include("images").all();
   }
 
   async createProduct(

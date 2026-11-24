@@ -308,6 +308,19 @@ export type StorageColumnInputTypes = ColumnTypesFromStorage<
 >;
 
 export namespace Models {
+  export type public_CartItem = {
+    createdAt: FieldOutputTypes['public']['CartItem']['createdAt'];
+    createdBy: FieldOutputTypes['public']['CartItem']['createdBy'];
+    deletedAt: FieldOutputTypes['public']['CartItem']['deletedAt'];
+    id: FieldOutputTypes['public']['CartItem']['id'];
+    quantity: FieldOutputTypes['public']['CartItem']['quantity'];
+    status: FieldOutputTypes['public']['CartItem']['status'];
+    updatedAt: FieldOutputTypes['public']['CartItem']['updatedAt'];
+    variantId: FieldOutputTypes['public']['CartItem']['variantId'];
+    user: public_User;
+    variant: public_Variant;
+    readonly [RelationKeys]?: 'user' | 'variant';
+  };
   export type public_Image = {
     createdAt: FieldOutputTypes['public']['Image']['createdAt'];
     createdBy: FieldOutputTypes['public']['Image']['createdBy'];
@@ -330,9 +343,25 @@ export namespace Models {
     id: FieldOutputTypes['public']['Order']['id'];
     status: FieldOutputTypes['public']['Order']['status'];
     updatedAt: FieldOutputTypes['public']['Order']['updatedAt'];
-    orderItems: public_orderItem[];
+    orderItems: public_OrderItem[];
     user: public_User;
     readonly [RelationKeys]?: 'orderItems' | 'user';
+  };
+  export type public_OrderItem = {
+    createdAt: FieldOutputTypes['public']['OrderItem']['createdAt'];
+    createdBy: FieldOutputTypes['public']['OrderItem']['createdBy'];
+    deletedAt: FieldOutputTypes['public']['OrderItem']['deletedAt'];
+    estimatedDate: FieldOutputTypes['public']['OrderItem']['estimatedDate'];
+    id: FieldOutputTypes['public']['OrderItem']['id'];
+    orderId: FieldOutputTypes['public']['OrderItem']['orderId'];
+    quantity: FieldOutputTypes['public']['OrderItem']['quantity'];
+    status: FieldOutputTypes['public']['OrderItem']['status'];
+    updatedAt: FieldOutputTypes['public']['OrderItem']['updatedAt'];
+    variantId: FieldOutputTypes['public']['OrderItem']['variantId'];
+    order: public_Order;
+    user: public_User;
+    variant: public_Variant;
+    readonly [RelationKeys]?: 'order' | 'user' | 'variant';
   };
   export type public_Product = {
     createdAt: FieldOutputTypes['public']['Product']['createdAt'];
@@ -354,7 +383,7 @@ export namespace Models {
     name: FieldOutputTypes['public']['User']['name'];
     updatedAt: FieldOutputTypes['public']['User']['updatedAt'];
     username: FieldOutputTypes['public']['User']['username'];
-    cartItem: public_cartItem[];
+    cartItem: public_CartItem[];
     images: public_Image[];
     orders: public_Order[];
     products: public_Product[];
@@ -375,46 +404,17 @@ export namespace Models {
     user: public_User;
     readonly [RelationKeys]?: 'product' | 'user';
   };
-  export type public_cartItem = {
-    createdAt: FieldOutputTypes['public']['cartItem']['createdAt'];
-    createdBy: FieldOutputTypes['public']['cartItem']['createdBy'];
-    deletedAt: FieldOutputTypes['public']['cartItem']['deletedAt'];
-    id: FieldOutputTypes['public']['cartItem']['id'];
-    quantity: FieldOutputTypes['public']['cartItem']['quantity'];
-    status: FieldOutputTypes['public']['cartItem']['status'];
-    updatedAt: FieldOutputTypes['public']['cartItem']['updatedAt'];
-    variantId: FieldOutputTypes['public']['cartItem']['variantId'];
-    user: public_User;
-    variant: public_Variant;
-    readonly [RelationKeys]?: 'user' | 'variant';
-  };
-  export type public_orderItem = {
-    createdAt: FieldOutputTypes['public']['orderItem']['createdAt'];
-    createdBy: FieldOutputTypes['public']['orderItem']['createdBy'];
-    deletedAt: FieldOutputTypes['public']['orderItem']['deletedAt'];
-    estimatedDate: FieldOutputTypes['public']['orderItem']['estimatedDate'];
-    id: FieldOutputTypes['public']['orderItem']['id'];
-    orderId: FieldOutputTypes['public']['orderItem']['orderId'];
-    quantity: FieldOutputTypes['public']['orderItem']['quantity'];
-    status: FieldOutputTypes['public']['orderItem']['status'];
-    updatedAt: FieldOutputTypes['public']['orderItem']['updatedAt'];
-    variantId: FieldOutputTypes['public']['orderItem']['variantId'];
-    order: public_Order;
-    user: public_User;
-    variant: public_Variant;
-    readonly [RelationKeys]?: 'order' | 'user' | 'variant';
-  };
 }
 
 export declare const models: {
   public: {
+    CartItem: Models.public_CartItem;
     Image: Models.public_Image;
     Order: Models.public_Order;
+    OrderItem: Models.public_OrderItem;
     Product: Models.public_Product;
     User: Models.public_User;
     Variant: Models.public_Variant;
-    cartItem: Models.public_cartItem;
-    orderItem: Models.public_orderItem;
   };
 };
 
@@ -1122,11 +1122,11 @@ type ContractBase = Omit<
   readonly target: 'postgres';
   readonly targetFamily: 'sql';
   readonly roots: {
-    readonly cart_items: { readonly namespace: 'public' & NamespaceId; readonly model: 'cartItem' };
+    readonly cart_items: { readonly namespace: 'public' & NamespaceId; readonly model: 'CartItem' };
     readonly images: { readonly namespace: 'public' & NamespaceId; readonly model: 'Image' };
     readonly order_items: {
       readonly namespace: 'public' & NamespaceId;
-      readonly model: 'orderItem';
+      readonly model: 'OrderItem';
     };
     readonly orders: { readonly namespace: 'public' & NamespaceId; readonly model: 'Order' };
     readonly products: { readonly namespace: 'public' & NamespaceId; readonly model: 'Product' };
@@ -1137,7 +1137,7 @@ type ContractBase = Omit<
     readonly namespaces: {
       readonly public: {
         readonly models: {
-          readonly cartItem: {
+          readonly CartItem: {
             readonly fields: {
               readonly createdAt: {
                 readonly nullable: false;
@@ -1363,7 +1363,7 @@ type ContractBase = Omit<
               readonly orderItems: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'orderItem';
+                  readonly model: 'OrderItem';
                 };
                 readonly cardinality: '1:N';
                 readonly on: {
@@ -1395,7 +1395,7 @@ type ContractBase = Omit<
               };
             };
           };
-          readonly orderItem: {
+          readonly OrderItem: {
             readonly fields: {
               readonly createdAt: {
                 readonly nullable: false;
@@ -1635,7 +1635,7 @@ type ContractBase = Omit<
               readonly cartItem: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'cartItem';
+                  readonly model: 'CartItem';
                 };
                 readonly cardinality: '1:N';
                 readonly on: {

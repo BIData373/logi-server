@@ -8,9 +8,9 @@ import {
   Post,
 } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiParam } from "@nestjs/swagger";
-import { GetParamsDecerator } from "../common/deceretors/get-params.decerator.js";
-import { ToSwaggerAndInstace } from "../common/deceretors/to-swagger-and-instace.decorator.js";
-import type { GetUserDto } from "../user/dto/request/get-user.dto.js";
+import { GetParamsDecerator } from "../common/decorators/get-params.decorator.js";
+import { ToSwaggerAndInstace } from "../common/decorators/to-swagger-and-instace.decorator.js";
+import { GetUserDto } from "../user/dto/request/get-user.dto.js";
 import { CreateProductDto } from "./dto/request/create-product.dto.js";
 import { GetProductDto } from "./dto/request/get-product.dto.js";
 import { UpdateProductDto } from "./dto/request/update-product.dto.js";

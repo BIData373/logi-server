@@ -10,10 +10,10 @@ import {
 import { ApiBody, ApiOperation, ApiParam } from "@nestjs/swagger";
 import { OrderService } from "./order.service.js";
 import { CreateOrderDto } from "./dto/request/create-order.dto.js";
-import { ToSwaggerAndInstace } from "../common/deceretors/to-swagger-and-instace.decorator.js";
+import { ToSwaggerAndInstace } from "../common/decorators/to-swagger-and-instace.decorator.js";
 import { OrderDto } from "./dto/response/order.dto.js";
 import { GetUserDto } from "../user/dto/request/get-user.dto.js";
-import { GetParamsDecerator } from "../common/deceretors/get-params.decerator.js";
+import { GetParamsDecerator } from "../common/decorators/get-params.decorator.js";
 import { GetOrderDto } from "./dto/request/get-order.dto.js";
 import { UpdateOrderDto } from "./dto/request/update-order.dto.js";
 
@@ -37,7 +37,7 @@ export class OrderController {
   @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(OrderDto)
   async getOrderById(@Param("id") id: number) {
-    return this.orderService.getOrderById(id);
+    return await this.orderService.getOrderById(id);
   }
 
   @Patch("/:id")

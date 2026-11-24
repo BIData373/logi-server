@@ -1,5 +1,5 @@
 import { Exclude, Type } from "class-transformer";
-import { ExposeProperty } from "../../../common/deceretors/expose-property.decorator.js";
+import { ExposeProperty } from "../../../common/decorators/expose-property.decorator.js";
 import { ProductDto } from "../../../products/dto/response/product.dto.js";
 
 @Exclude()

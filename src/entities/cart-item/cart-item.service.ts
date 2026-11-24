@@ -12,7 +12,7 @@ export class CartItemService {
     createdBy: number,
     variantId: number,
   ) {
-    return await this.prisma.orm.cartItem.create({
+    return await this.prisma.orm.CartItem.create({
       ...orderItem,
       createdBy,
       variantId,
@@ -21,7 +21,7 @@ export class CartItemService {
   }
 
   async updateCartItem(id: number, updates: UpdateCartItemDto) {
-    const update = await this.prisma.orm.cartItem.where({ id }).update({
+    const update = await this.prisma.orm.CartItem.where({ id }).update({
       ...updates,
       updatedAt: new Date(),
     });
@@ -29,13 +29,13 @@ export class CartItemService {
   }
 
   async getCartItemById(id: number) {
-    return await this.prisma.orm.cartItem
-      .include("variant", (variant) => variant.include("product"))
-      .first({ id });
+    return await this.prisma.orm.CartItem.include("variant", (variant) =>
+      variant.include("product"),
+    ).first({ id });
   }
 
   async deleteCartItem(id: number) {
-    const update = await this.prisma.orm.cartItem.where({ id }).update({
+    const update = await this.prisma.orm.CartItem.where({ id }).update({
       deletedAt: new Date(),
     });
     return update;
