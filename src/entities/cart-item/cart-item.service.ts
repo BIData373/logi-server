@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../../prisma.service.js";
-import type { CreateCartItemDto } from "./dto/request/create-cart-item.dto.js";
-import type { UpdateCartItemDto } from "./dto/request/update-cart-item.dto.js";
+import { CreateCartItemDto } from "./dto/request/create-cart-item.dto.js";
+import { UpdateCartItemDto } from "./dto/request/update-cart-item.dto.js";
 
 @Injectable()
 export class CartItemService {

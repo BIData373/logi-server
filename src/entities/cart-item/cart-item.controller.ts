@@ -12,10 +12,10 @@ import { ToSwaggerAndInstace } from "../common/deceretors/to-swagger-and-instace
 import { GetParamsDecerator } from "../common/deceretors/get-params.decerator.js";
 import { GetUserDto } from "../user/dto/request/get-user.dto.js";
 import { GetVariantDto } from "../variant/dto/request/get-variant.dto.js";
-import type { CartItemService } from "./cart-item.service.js";
+import { CartItemService } from "./cart-item.service.js";
 import { CreateCartItemDto } from "./dto/request/create-cart-item.dto.js";
 import { CartItemDto } from "./dto/response/cart-item.dto.js";
-import type { GetCartItemDto } from "./dto/request/get-cart-item.dto.js";
+import { GetCartItemDto } from "./dto/request/get-cart-item.dto.js";
 import { UpdateCartItemDto } from "./dto/request/update-cart-item.dto.js";
 
 @Controller("cart-items")
