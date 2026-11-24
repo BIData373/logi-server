@@ -9,6 +9,12 @@ export class OrderService {
     return await this.prisma.orm.Order.create({ createdBy, status: "created" });
   }
 
+  async getOrderById(id: number) {
+    return await this.prisma.orm.Order.include("orderItems", (orderItems) =>
+      orderItems.include("variant", (variant) => variant.include("product")),
+    ).first({ id });
+  }
+
   async updateOrder(id: number, updates: UpdateOrderDto) {
     new Date();
     let update;

@@ -16,6 +16,7 @@ import { GetProductDto } from "./dto/request/get-product.dto.js";
 import { UpdateProductDto } from "./dto/request/update-product.dto.js";
 import { ProductDto } from "./dto/response/product.dto.js";
 import { ProductService } from "./product.service.js";
+import { ProductDtoWithVariant } from "./dto/response/product-with-variant.dto.js";
 
 @Controller("products")
 export class ProductController {
@@ -43,7 +44,7 @@ export class ProductController {
   @Get("/:id")
   @ApiOperation({ operationId: "getProductById" })
   @ApiParam({ name: "id", type: Number })
-  @ToSwaggerAndInstace(ProductDto)
+  @ToSwaggerAndInstace(ProductDtoWithVariant)
   async getProductById(@Param() product: GetProductDto) {
     return product.context;
   }

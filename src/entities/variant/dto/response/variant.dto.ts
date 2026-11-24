@@ -1,6 +1,6 @@
-import { Exclude, Expose, Type } from "class-transformer";
+import { Exclude, Type } from "class-transformer";
 import { ExposeProperty } from "../../../common/deceretors/expose-property.decorator.js";
-import { ImageDto } from "../../../images/dto/response/image.dto.js";
+import { ProductDto } from "../../../products/dto/response/product.dto.js";
 
 @Exclude()
 export class VariantDto {
@@ -21,4 +21,8 @@ export class VariantDto {
 
   @ExposeProperty()
   isPrivate: boolean;
+
+  @ExposeProperty({ type: ProductDto })
+  @Type(() => ProductDto)
+  product: ProductDto;
 }

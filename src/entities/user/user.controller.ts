@@ -12,6 +12,7 @@ import { UserDto } from "./dto/response/user.dto.js";
 import { OrderDto } from "../order/dto/response/order.dto.js";
 import { GetUserDto } from "./dto/request/get-user.dto.js";
 import { GetUserOrdersDto } from "./dto/request/get-user-orders.dto.js";
+import type { UserDtoWithOrders } from "./dto/response/user-with-orders.js";
 
 @Controller("users")
 export class UserController {
@@ -28,8 +29,10 @@ export class UserController {
   @ApiOperation({ operationId: "getUserOrders" })
   @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(OrderDto, true)
-  async getUserOrders(@Param() user: GetUserOrdersDto) {
-    const context = await user.context;
-    return context != null && "orders" in context ? context.orders : undefined;
+  async getUserOrders(@Param("id") id: number) {
+    const user = (await this.service.getUserOrdersById(
+      id,
+    )) as unknown as UserDtoWithOrders;
+    return user.orders;
   }
 }
