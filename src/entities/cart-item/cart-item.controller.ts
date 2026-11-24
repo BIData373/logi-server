@@ -19,7 +19,7 @@ import type { GetCartItemDto } from "./dto/request/get-cart-item.dto.js";
 import { UpdateCartItemDto } from "./dto/request/update-cart-item.dto.js";
 
 @Controller("cart-items")
-export class OrderItemController {
+export class CartItemController {
   constructor(private readonly cartItemService: CartItemService) {}
 
   @Post(":userId/:orderId/:variantId")

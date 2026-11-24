@@ -15,6 +15,8 @@ import { OrderController } from "./entities/order/order.controller.js";
 import { OrderService } from "./entities/order/order.service.js";
 import { OrderItemService } from "./entities/order-item/order-item.service.js";
 import { OrderItemController } from "./entities/order-item/order-item.controller.js";
+import { CartItemService } from "./entities/cart-item/cart-item.service.js";
+import { CartItemController } from "./entities/cart-item/cart-item.controller.js";
 
 @Module({
   imports: [],
@@ -26,6 +28,7 @@ import { OrderItemController } from "./entities/order-item/order-item.controller
     VariantController,
     OrderController,
     OrderItemController,
+    CartItemController,
   ],
   providers: [
     PrismaService,
@@ -36,6 +39,7 @@ import { OrderItemController } from "./entities/order-item/order-item.controller
     VariantService,
     OrderService,
     OrderItemService,
+    CartItemService,
   ],
 })
 export class AppModule {}
