@@ -25,6 +25,9 @@ export class OrderItemDto {
   @ExposeProperty()
   createdAt: Date;
 
+  @ExposeProperty()
+  quantity: number;
+
   @ExposeProperty({ type: VariantDto })
   @Type(() => VariantDto)
   variant: VariantDto;

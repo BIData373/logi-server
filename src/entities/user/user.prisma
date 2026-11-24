@@ -11,6 +11,7 @@ model User {
   images    Image[]?
   products  Product[]?
   orders    Order[]?
+  cartItem    cartItem[]?
 
   @@map("users")
 }
