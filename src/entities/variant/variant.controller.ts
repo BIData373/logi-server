@@ -23,19 +23,19 @@ import { VariantDto } from "./dto/response/variant.dto.js";
 import { GetVariantDto } from "./dto/request/get-variant.dto.js";
 import { UpdateVariantDto } from "./dto/request/update-variant.dto.js";
 import { UpdateProductDto } from "../products/dto/request/update-product.dto.js";
+import { CurrentUserId } from "../common/decorators/current-user-id.decorator.js";
 
 @Controller("variants")
 export class VariantController {
   constructor(private readonly variantService: VariantService) {}
-  @Post(":userId/:productId")
+  @Post("/:productId")
   @ApiBody({ type: CreateVariantDto })
   @ApiOperation({ operationId: "createVariant" })
-  @ApiParam({ name: "userId", type: Number })
   @ApiParam({ name: "productId", type: Number })
   @ToSwaggerAndInstace(VariantDto)
   async createVariant(
     @Body() variant: CreateVariantDto,
-    @GetParamsDecerator("userId") user: GetUserDto,
+    @CurrentUserId() user: GetUserDto,
     @GetParamsDecerator("productId") product: GetProductDto,
   ) {
     return await this.variantService.createVariant(

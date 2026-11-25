@@ -1,4 +1,8 @@
-import { Module } from "@nestjs/common";
+import {
+  Module,
+  type MiddlewareConsumer,
+  type NestModule,
+} from "@nestjs/common";
 import { AppController } from "./app.controller.js";
 import { entityExistsConstraint } from "./entities/common/decorators/entity-exsist.decorator.js";
 import { ImageController } from "./entities/images/image.controller.js";
@@ -17,6 +21,7 @@ import { OrderItemService } from "./entities/order-item/order-item.service.js";
 import { OrderItemController } from "./entities/order-item/order-item.controller.js";
 import { CartItemService } from "./entities/cart-item/cart-item.service.js";
 import { CartItemController } from "./entities/cart-item/cart-item.controller.js";
+import { AuthMiddleware } from "./entities/common/middleware/auth.middleware.js";
 
 @Module({
   imports: [],
@@ -42,4 +47,8 @@ import { CartItemController } from "./entities/cart-item/cart-item.controller.js
     CartItemService,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes("*");
+  }
+}

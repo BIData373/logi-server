@@ -17,19 +17,20 @@ import { UpdateProductDto } from "./dto/request/update-product.dto.js";
 import { ProductDto } from "./dto/response/product.dto.js";
 import { ProductService } from "./product.service.js";
 import { ProductDtoWithVariant } from "./dto/response/product-with-variant.dto.js";
+import { CurrentUserId } from "../common/decorators/current-user-id.decorator.js";
 
 @Controller("products")
 export class ProductController {
   constructor(private readonly service: ProductService) {}
 
-  @Post("/:userId")
+  @Post()
   @ApiBody({ type: CreateProductDto })
   @ApiOperation({ operationId: "createProduct" })
-  @ApiParam({ name: "userId", type: Number })
   @ToSwaggerAndInstace(ProductDto)
   async createProduct(
-    @Body() product: CreateProductDto,
-    @GetParamsDecerator("userId") user: GetUserDto,
+    @CurrentUserId() user: GetUserDto,
+    @Body()
+    product: CreateProductDto,
   ) {
     return await this.service.createProduct(product, user.id);
   }

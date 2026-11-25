@@ -16,18 +16,18 @@ import { GetUserDto } from "../user/dto/request/get-user.dto.js";
 import { GetParamsDecerator } from "../common/decorators/get-params.decorator.js";
 import { GetOrderDto } from "./dto/request/get-order.dto.js";
 import { UpdateOrderDto } from "./dto/request/update-order.dto.js";
+import { CurrentUserId } from "../common/decorators/current-user-id.decorator.js";
 
 @Controller("orders")
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
-  @Post(":userId")
+  @Post()
   @ApiBody({ type: CreateOrderDto })
   @ApiOperation({ operationId: "createOrder" })
-  @ApiParam({ name: "userId", type: Number })
   @ToSwaggerAndInstace(OrderDto)
   async createOrder(
     @Body() order: CreateOrderDto,
-    @GetParamsDecerator("userId") user: GetUserDto,
+    @CurrentUserId() user: GetUserDto,
   ) {
     return await this.orderService.createOrder(user.id);
   }

@@ -18,20 +18,20 @@ import { OrderItemService } from "./order-item.service.js";
 import { GetVariantDto } from "../variant/dto/request/get-variant.dto.js";
 import { GetOrderItemDto } from "./dto/request/get-order-item.dto.js";
 import { UpdateOrderItemDto } from "./dto/request/update-order-item.dto.js";
+import { CurrentUserId } from "../common/decorators/current-user-id.decorator.js";
 
 @Controller("order-items")
 export class OrderItemController {
   constructor(private readonly orderItemService: OrderItemService) {}
-  @Post(":userId/:orderId/:variantId")
+  @Post("/:orderId/:variantId")
   @ApiBody({ type: CreateOrderItemDto })
   @ApiOperation({ operationId: "createOrderItem" })
-  @ApiParam({ name: "userId", type: Number })
   @ApiParam({ name: "variantId", type: Number })
   @ApiParam({ name: "orderId", type: Number })
   @ToSwaggerAndInstace(OrderItemDto)
   async createOrderItem(
     @Body() orderItem: CreateOrderItemDto,
-    @GetParamsDecerator("userId") user: GetUserDto,
+    @CurrentUserId() user: GetUserDto,
     @GetParamsDecerator("variantId") variant: GetVariantDto,
     @GetParamsDecerator("orderId") order: GetOrderDto,
   ) {

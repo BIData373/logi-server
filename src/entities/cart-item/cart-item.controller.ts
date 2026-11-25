@@ -17,20 +17,20 @@ import { CreateCartItemDto } from "./dto/request/create-cart-item.dto.js";
 import { CartItemDto } from "./dto/response/cart-item.dto.js";
 import { GetCartItemDto } from "./dto/request/get-cart-item.dto.js";
 import { UpdateCartItemDto } from "./dto/request/update-cart-item.dto.js";
+import { CurrentUserId } from "../common/decorators/current-user-id.decorator.js";
 
 @Controller("cart-items")
 export class CartItemController {
   constructor(private readonly cartItemService: CartItemService) {}
 
-  @Post(":userId/:variantId")
+  @Post("/:variantId")
   @ApiBody({ type: CreateCartItemDto })
   @ApiOperation({ operationId: "createCartItem" })
-  @ApiParam({ name: "userId", type: Number })
   @ApiParam({ name: "variantId", type: Number })
   @ToSwaggerAndInstace(CartItemDto)
   async createCartItem(
     @Body() cartItem: CreateCartItemDto,
-    @GetParamsDecerator("userId") user: GetUserDto,
+    @CurrentUserId() user: GetUserDto,
     @GetParamsDecerator("variantId") variant: GetVariantDto,
   ) {
     return await this.cartItemService.createCartItem(

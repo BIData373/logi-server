@@ -13,18 +13,19 @@ import { GetParamsDecerator } from "../common/decorators/get-params.decorator.js
 import { ToSwaggerAndInstace } from "../common/decorators/to-swagger-and-instace.decorator.js";
 import { ImageDto } from "./dto/response/image.dto.js";
 import { number } from "@prisma/composer";
+import { CurrentUserId } from "../common/decorators/current-user-id.decorator.js";
 @Controller("images")
 export class ImageController {
   constructor(private readonly service: ImageService) {}
-  @Post("/:createdBy")
+  @Post()
   @ApiBody({ type: CreateImageDto })
   @ApiOperation({ operationId: "createImage" })
-  @ApiParam({ name: "createdBy", type: Number })
   @ToSwaggerAndInstace(ImageDto)
   async createImage(
     @Body() image: CreateImageDto,
-    @GetParamsDecerator("createdBy") user: GetUserDto,
+    @CurrentUserId() user: GetUserDto,
   ) {
+    console.log(user.id);
     return await this.service.createImage(image, user.id);
   }
 }
