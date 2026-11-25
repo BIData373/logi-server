@@ -44,7 +44,7 @@ export class CartItemController {
   @ApiOperation({ operationId: "getCartItemById" })
   @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(CartItemDto)
-  async getCartItemById(@Param("id") id: number) {
+  async getCartItemtById(@Param("id") id: number) {
     return await this.cartItemService.getCartItemById(id);
   }
 

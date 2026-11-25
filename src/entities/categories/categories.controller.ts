@@ -39,7 +39,7 @@ export class CategoriesController {
   @ApiOperation({ operationId: "getCategoryById" })
   @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(CategoryWithImageDto)
-  async getVariantById(@Param() category: GetCategoryWithImageDto) {
+  async getCategoryById(@Param() category: GetCategoryWithImageDto) {
     return category.context;
   }
 
