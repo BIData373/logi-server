@@ -33,7 +33,7 @@ export class VariantController {
   @ApiParam({ name: "userId", type: Number })
   @ApiParam({ name: "productId", type: Number })
   @ToSwaggerAndInstace(VariantDto)
-  async createProduct(
+  async createVariant(
     @Body() variant: CreateVariantDto,
     @GetParamsDecerator("userId") user: GetUserDto,
     @GetParamsDecerator("productId") product: GetProductDto,

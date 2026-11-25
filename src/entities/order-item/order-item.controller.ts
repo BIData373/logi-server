@@ -29,7 +29,7 @@ export class OrderItemController {
   @ApiParam({ name: "variantId", type: Number })
   @ApiParam({ name: "orderId", type: Number })
   @ToSwaggerAndInstace(OrderItemDto)
-  async createProduct(
+  async createOrderItem(
     @Body() orderItem: CreateOrderItemDto,
     @GetParamsDecerator("userId") user: GetUserDto,
     @GetParamsDecerator("variantId") variant: GetVariantDto,
@@ -47,7 +47,7 @@ export class OrderItemController {
   @ApiOperation({ operationId: "getOrderItemById" })
   @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(OrderItemDto)
-  async getVariantById(@Param() order: GetOrderItemDto) {
+  async getOrderItemById(@Param() order: GetOrderItemDto) {
     return order.context;
   }
 
@@ -57,7 +57,7 @@ export class OrderItemController {
   @ApiOperation({ operationId: "updateOrderItem" })
   @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(OrderItemDto)
-  async updateVariant(
+  async updateOrderItem(
     @Param() orderItem: GetOrderItemDto,
     @Body() newOrderItem: UpdateOrderItemDto,
   ) {
@@ -71,7 +71,7 @@ export class OrderItemController {
   @ApiParam({ name: "id", type: Number })
   @ApiOperation({ operationId: "deleteOrderItem" })
   @ToSwaggerAndInstace(OrderItemDto)
-  async deleteVariant(@Param() orderItem: GetOrderItemDto) {
+  async deleteOrderItem(@Param() orderItem: GetOrderItemDto) {
     return await this.orderItemService.deleteOrderItem(orderItem.id);
   }
 }

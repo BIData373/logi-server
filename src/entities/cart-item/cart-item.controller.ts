@@ -24,16 +24,16 @@ export class CartItemController {
 
   @Post(":userId/:variantId")
   @ApiBody({ type: CreateCartItemDto })
-  @ApiOperation({ operationId: "createOrderItem" })
+  @ApiOperation({ operationId: "createCartItem" })
   @ApiParam({ name: "userId", type: Number })
   @ApiParam({ name: "variantId", type: Number })
   @ToSwaggerAndInstace(CartItemDto)
-  async createProduct(
+  async createCartItem(
     @Body() cartItem: CreateCartItemDto,
     @GetParamsDecerator("userId") user: GetUserDto,
     @GetParamsDecerator("variantId") variant: GetVariantDto,
   ) {
-    return await this.cartItemService.createOrderItem(
+    return await this.cartItemService.createCartItem(
       cartItem,
       user.id,
       variant.id,
@@ -44,7 +44,7 @@ export class CartItemController {
   @ApiOperation({ operationId: "getCartItemById" })
   @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(CartItemDto)
-  async getVariantById(@Param("id") id: number) {
+  async getCartItemById(@Param("id") id: number) {
     return await this.cartItemService.getCartItemById(id);
   }
 
@@ -54,7 +54,7 @@ export class CartItemController {
   @ApiOperation({ operationId: "updateCartItem" })
   @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(CartItemDto)
-  async updateVariant(
+  async updateCartItem(
     @Param() cartItem: GetCartItemDto,
     @Body() newcartItem: UpdateCartItemDto,
   ) {
@@ -65,7 +65,7 @@ export class CartItemController {
   @ApiParam({ name: "id", type: Number })
   @ApiOperation({ operationId: "deleteCartItem" })
   @ToSwaggerAndInstace(CartItemDto)
-  async deleteVariant(@Param() cartItem: GetCartItemDto) {
+  async deleteCartItem(@Param() cartItem: GetCartItemDto) {
     return await this.cartItemService.deleteCartItem(cartItem.id);
   }
 }

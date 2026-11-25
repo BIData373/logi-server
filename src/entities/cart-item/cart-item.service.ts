@@ -7,7 +7,7 @@ import { UpdateCartItemDto } from "./dto/request/update-cart-item.dto.js";
 export class CartItemService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createOrderItem(
+  async createCartItem(
     orderItem: CreateCartItemDto,
     createdBy: number,
     variantId: number,
