@@ -1,14 +1,25 @@
-import "reflect-metadata";
-
-import { NestFactory } from "@nestjs/core";
-import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
-
-import { AppModule } from "./app.module.js";
 import { ValidationPipe } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { ExpressAdapter } from "@nestjs/platform-express";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { useContainer } from "class-validator";
+import express from "express";
+import "reflect-metadata";
+import { AppModule } from "./app.module.js";
+import { isDev } from "./common/consts/env.js";
 
+const server = express();
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
+    logger: ["verbose"],
+    bufferLogs: true,
+    cors: {
+      credentials: true,
+      ...(isDev && {
+        origin: (origin, callback) => callback(null, origin ?? false),
+      }),
+    },
+  });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   const rawPort = (process.env.PORT ?? "").trim();
