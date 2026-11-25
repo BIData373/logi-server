@@ -24,7 +24,6 @@ export class UserService {
     const user = await this.prisma.orm.User.include("cartItems", (cartItem) =>
       cartItem.include("variant", (variant) => variant.include("product")),
     ).first({ id });
-    console.log(user);
     return user;
   }
 }

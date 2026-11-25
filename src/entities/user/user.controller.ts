@@ -36,7 +36,6 @@ export class UserController {
   @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(CartItemDto, true)
   async getUserCart(@Param("id") id: number) {
-    console.log("hi");
     const user = (await this.service.getUserCart(
       id,
     )) as unknown as UserWithCartDto;
