@@ -52,7 +52,6 @@ export class CartItemController {
   @ApiBody({ type: UpdateCartItemDto })
   @ApiParam({ name: "id", type: Number })
   @ApiOperation({ operationId: "updateCartItem" })
-  @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(CartItemDto)
   async updateCartItem(
     @Param() cartItem: GetCartItemDto,

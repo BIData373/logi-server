@@ -55,7 +55,6 @@ export class OrderItemController {
   @ApiBody({ type: UpdateOrderItemDto })
   @ApiParam({ name: "id", type: Number })
   @ApiOperation({ operationId: "updateOrderItem" })
-  @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(OrderItemDto)
   async updateOrderItem(
     @Param() orderItem: GetOrderItemDto,
