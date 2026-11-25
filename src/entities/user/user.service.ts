@@ -22,7 +22,9 @@ export class UserService {
 
   async getUserCart(id: number) {
     const user = await this.prisma.orm.User.include("cartItems", (cartItem) =>
-      cartItem.include("variant", (variant) => variant.include("product")),
+      cartItem.include("variant", (variant) =>
+        variant.include("product", (product) => product.include("images")),
+      ),
     ).first({ id });
     return user;
   }
