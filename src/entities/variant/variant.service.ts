@@ -19,7 +19,7 @@ export class VariantService {
     });
   }
 
-  async updateVariante(id: number, updates: UpdateVariantDto) {
+  async updateVariant(id: number, updates: UpdateVariantDto) {
     new Date();
     let update;
     update = await this.prisma.orm.Variant.where({ id: id }).update({
@@ -29,7 +29,7 @@ export class VariantService {
     return update;
   }
 
-  async deleteVariante(id: number) {
+  async deleteVariant(id: number) {
     new Date();
     let update;
     update = await this.prisma.orm.Variant.where({ id: id }).update({

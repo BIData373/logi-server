@@ -47,8 +47,8 @@ export class OrderItemController {
   @ApiOperation({ operationId: "getOrderItemById" })
   @ApiParam({ name: "id", type: Number })
   @ToSwaggerAndInstace(OrderItemDto)
-  async getOrderItemById(@Param() order: GetOrderItemDto) {
-    return order.context;
+  async getOrderItemById(@Param() orderItem: GetOrderItemDto) {
+    return orderItem.context;
   }
 
   @Patch("/:id")

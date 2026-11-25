@@ -62,7 +62,7 @@ export class VariantController {
     @Param() variant: GetVariantDto,
     @Body() newVariant: UpdateVariantDto,
   ) {
-    return await this.variantService.updateVariante(variant.id, newVariant);
+    return await this.variantService.updateVariant(variant.id, newVariant);
   }
 
   @Delete("/:id")
@@ -70,6 +70,6 @@ export class VariantController {
   @ApiOperation({ operationId: "deleteVariant" })
   @ToSwaggerAndInstace(VariantDto)
   async deleteVariant(@Param() variant: GetVariantDto) {
-    return await this.variantService.deleteVariante(variant.id);
+    return await this.variantService.deleteVariant(variant.id);
   }
 }

@@ -21,7 +21,7 @@ import { UpdateOrderDto } from "./dto/request/update-order.dto.js";
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
   @Post(":userId")
-  //   @ApiBody({ type: CreateOrderDto })
+  @ApiBody({ type: CreateOrderDto })
   @ApiOperation({ operationId: "createOrder" })
   @ApiParam({ name: "userId", type: Number })
   @ToSwaggerAndInstace(OrderDto)

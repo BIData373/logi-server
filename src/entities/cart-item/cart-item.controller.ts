@@ -55,9 +55,9 @@ export class CartItemController {
   @ToSwaggerAndInstace(CartItemDto)
   async updateCartItem(
     @Param() cartItem: GetCartItemDto,
-    @Body() newcartItem: UpdateCartItemDto,
+    @Body() newCartItem: UpdateCartItemDto,
   ) {
-    return await this.cartItemService.updateCartItem(cartItem.id, newcartItem);
+    return await this.cartItemService.updateCartItem(cartItem.id, newCartItem);
   }
 
   @Delete("/:id")
