@@ -1,12 +1,14 @@
-import { Exclude, Expose } from "class-transformer";
+import { Exclude } from "class-transformer";
+import { ExposeProperty } from "../../../common/decorators/expose-property.decorator.js";
 
 @Exclude()
 export class ImageDto {
-  @Expose()
+  @ExposeProperty()
   name: string;
 
-  @Expose()
+  @ExposeProperty()
   url: string;
-  @Expose()
+
+  @ExposeProperty()
   id: number;
 }

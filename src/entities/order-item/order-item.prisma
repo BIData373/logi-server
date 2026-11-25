@@ -1,0 +1,21 @@
+// use prisma-8
+// Contract inferred from the live database schema. Edit as needed, then run `prisma contract emit`.
+
+model OrderItem {
+    id          Int       @id() @default(autoincrement())
+    quantity    Int 
+    orderId    Int @map("order_id")
+    variantId  Int  @map("variant_id")
+    status      String 
+    createdAt   DateTime  @default(now()) @map("created_at")
+    createdBy   Int       @map("created_by")
+    deletedAt   DateTime? @map("deleted_at")
+    updatedAt   DateTime?  @map("updated_at")
+    estimatedDate   DateTime?  @map("estimated_date")
+    user     User     @relation(fields: [createdBy], references: [id], map: "order_item_created_by_fkey")
+    variant Variant     @relation(fields:[variantId],references: [id], map:"order_item_variant_id_fkey")
+   order   Order  @relation(fields: [orderId], references: [id], map: "order_item_order_fkey")
+    @@map("order_items")
+
+
+}

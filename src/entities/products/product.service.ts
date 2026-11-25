@@ -1,18 +1,26 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { PrismaService } from "../../prisma.service.js";
-import type { CreateProductDto } from "./request/create-product.dto.js";
-import type { UpdateProductDto } from "./request/update-product.dto.js";
 import { transformToIdArray } from "../common/functions/transform-array.js";
+import type { UpdateProductDto } from "./dto/request/update-product.dto.js";
+import type { CreateProductDto } from "./dto/request/create-product.dto.js";
 
 @Injectable()
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
+
   async findAll() {
-    return this.prisma.orm.Product.include("images").all();
+    return await this.prisma.orm.Product.include("images").all();
   }
 
-  async createProduct(product: CreateProductDto, id: number) {
-    return await this.prisma.orm.Product.create({ id, ...product });
+  async createProduct(
+    { imagesToAdd, ...product }: CreateProductDto,
+    id: number,
+  ) {
+    return await this.prisma.orm.Product.create({
+      createdBy: id,
+      ...product,
+      images: (images) => images.connect(transformToIdArray(imagesToAdd)),
+    });
   }
 
   async updateProduct(
@@ -37,6 +45,15 @@ export class ProductService {
         update = await tx.orm.public.Product.where({ id }).update({
           images: (images) => images.connect(transformToIdArray(imagesToAdd)),
         });
+    });
+    return update;
+  }
+
+  async deleteProduct(id: number) {
+    new Date();
+    let update;
+    update = await this.prisma.orm.Product.where({ id: id }).update({
+      deletedAt: new Date(),
     });
     return update;
   }

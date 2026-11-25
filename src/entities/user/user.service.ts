@@ -12,4 +12,17 @@ export class UserService {
       name: user.name,
     });
   }
+  async getUserOrdersById(id: number) {
+    return await this.prisma.orm.User.include("orders", (orders) =>
+      orders.include("orderItems", (orderItems) =>
+        orderItems.include("variant", (variant) => variant.include("product")),
+      ),
+    ).first({ id });
+  }
+
+  async getUserCart(id: number) {
+    return await this.prisma.orm.User.include("cartItem", (cartItem) =>
+      cartItem.include("variant", (variant) => variant.include("product")),
+    ).first({ id });
+  }
 }
