@@ -266,6 +266,21 @@
                   "namespace": "public"
                 }
               },
+              "products": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "categoryId"
+                  ]
+                },
+                "to": {
+                  "model": "Product",
+                  "namespace": "public"
+                }
+              },
               "user": {
                 "cardinality": "N:1",
                 "nullable": false,
@@ -785,6 +800,13 @@
           },
           "Product": {
             "fields": {
+              "categoryId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
               "createdAt": {
                 "nullable": false,
                 "type": {
@@ -845,6 +867,22 @@
               }
             },
             "relations": {
+              "Category": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "categoryId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Category",
+                  "namespace": "public"
+                }
+              },
               "images": {
                 "cardinality": "1:N",
                 "on": {
@@ -894,6 +932,9 @@
             },
             "storage": {
               "fields": {
+                "categoryId": {
+                  "column": "category_id"
+                },
                 "createdAt": {
                   "column": "created_at"
                 },
@@ -972,7 +1013,7 @@
               }
             },
             "relations": {
-              "cartItem": {
+              "cartItems": {
                 "cardinality": "1:N",
                 "on": {
                   "localFields": [
@@ -1912,6 +1953,11 @@
             },
             "products": {
               "columns": {
+                "category_id": {
+                  "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
+                  "nullable": false
+                },
                 "created_at": {
                   "codecId": "pg/timestamptz-date@1",
                   "dataType": "pg/timestamptz",
@@ -1985,9 +2031,37 @@
                     "namespaceId": "public",
                     "tableName": "users"
                   }
+                },
+                {
+                  "index": {
+                    "name": "products_category_id_idx_da7213d4"
+                  },
+                  "name": "products_category_fkey",
+                  "source": {
+                    "columns": [
+                      "category_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "products"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "category"
+                  }
                 }
               ],
               "indexes": [
+                {
+                  "columns": [
+                    "category_id"
+                  ],
+                  "name": "products_category_id_idx_da7213d4",
+                  "prefix": "products_category_id_idx",
+                  "unique": false
+                },
                 {
                   "columns": [
                     "created_by"
@@ -2217,7 +2291,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "6e809506dc27efc84881f4f1e5aebefcb885231a901a3c55836b727ec4675de2"
+    "storageHash": "b470495aa12f2b03b778bee927519ef210eb135d28b575e56a1af19a615056a5"
   },
   "capabilities": {
     "postgres": {

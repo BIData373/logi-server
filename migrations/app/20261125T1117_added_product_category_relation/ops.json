@@ -1,0 +1,265 @@
+[
+  {
+    "id": "column.public.products.category_id",
+    "label": "Add column \"category_id\" to \"products\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "category_id",
+        "table": "products"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"category_id\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "products",
+          "category_id"
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "column \"category_id\" on \"products\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"category_id\"",
+        "sql": "ALTER TABLE \"public\".\"products\" ADD COLUMN \"category_id\" int4"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"category_id\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "products",
+          "category_id"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"category_id\" on \"products\""
+        }
+      },
+      {
+        "description": "verify column \"category_id\" has type \"integer\"",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_attribute\" AS \"a\" INNER JOIN \"pg_class\" AS \"c\" ON \"c\".\"oid\" = \"a\".\"attrelid\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"relnamespace\" WHERE (\"n\".\"nspname\" = $1 AND \"c\".\"relname\" = $2 AND \"a\".\"attname\" = $3 AND (format_type(\"a\".\"atttypid\", \"a\".\"atttypmod\")) = $4 AND NOT (\"a\".\"attisdropped\"))) AS \"result\"",
+        "params": [
+          "public",
+          "products",
+          "category_id",
+          "integer"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "data_migration.backfill-products-category_id",
+    "label": "Data transform: backfill-products-category_id",
+    "operationClass": "data",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "category_id",
+        "table": "products"
+      }
+    },
+    "precheck": [
+      {
+        "description": "Check backfill-products-category_id has work to do",
+        "sql": "SELECT EXISTS (SELECT \"id\" AS \"id\" FROM \"public\".\"products\" WHERE \"category_id\" IS NULL LIMIT 1) AS ok",
+        "params": []
+      }
+    ],
+    "execute": [
+      {
+        "description": "Run backfill-products-category_id",
+        "sql": "UPDATE \"public\".\"products\" SET \"category_id\" = $1 WHERE \"category_id\" IS NULL",
+        "params": [
+          1
+        ]
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "Verify backfill-products-category_id resolved all violations",
+        "sql": "SELECT NOT EXISTS (SELECT \"id\" AS \"id\" FROM \"public\".\"products\" WHERE \"category_id\" IS NULL LIMIT 1) AS ok",
+        "params": [],
+        "meta": {
+          "requiredColumn": {
+            "table": "products",
+            "column": "category_id",
+            "reason": "backfillMissedRows"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "alterNullability.setNotNull.products.category_id",
+    "label": "Set NOT NULL on \"products\".\"category_id\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "category_id",
+        "table": "products"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"category_id\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "products",
+          "category_id"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"category_id\" on \"products\""
+        }
+      },
+      {
+        "description": "ensure no NULL values in \"category_id\"",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"public\".\"products\" WHERE \"category_id\" IS NULL) AS \"result\"",
+        "params": [],
+        "meta": {
+          "requiredColumn": {
+            "table": "products",
+            "column": "category_id",
+            "reason": "nullValues"
+          }
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "set NOT NULL on \"category_id\"",
+        "sql": "ALTER TABLE \"public\".\"products\" ALTER COLUMN \"category_id\" SET NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"category_id\" is NOT NULL",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "products",
+          "category_id",
+          "NO"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.products.products_category_id_idx_da7213d4",
+    "label": "Create index \"products_category_id_idx_da7213d4\" on \"products\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "products_category_id_idx_da7213d4",
+        "table": "products"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"products_category_id_idx_da7213d4\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"products_category_id_idx_da7213d4\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"products_category_id_idx_da7213d4\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"products_category_id_idx_da7213d4\"",
+        "sql": "CREATE INDEX \"products_category_id_idx_da7213d4\" ON \"public\".\"products\" (\"category_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"products_category_id_idx_da7213d4\" exists on \"products\" with the planned definition",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
+        "params": [
+          "\"public\".\"products_category_id_idx_da7213d4\"",
+          "i",
+          "I",
+          "\"public\".\"products\"",
+          "btree",
+          "[\"category_id\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.products.products_category_fkey",
+    "label": "Add foreign key \"products_category_fkey\" on \"products\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "products_category_fkey",
+        "table": "products"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"products_category_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "products_category_fkey",
+          "public",
+          "\"public\".\"products\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"products_category_fkey\" on \"products\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"products_category_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"products\"\nADD CONSTRAINT \"products_category_fkey\"\nFOREIGN KEY (\"category_id\")\nREFERENCES \"public\".\"category\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"products_category_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "products_category_fkey",
+          "public",
+          "\"public\".\"products\"",
+          "f",
+          "[\"category_id\"]",
+          "\"public\".\"category\"",
+          "[\"id\"]",
+          "a",
+          "a"
+        ]
+      }
+    ]
+  }
+]

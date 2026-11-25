@@ -9,9 +9,11 @@ model Product {
   createdBy  Int       @map("created_by")
   deletedAt  DateTime? @map("deleted_at")
   updatedAt  DateTime?  @map("updated_at")
+  categoryId  Int @map("category_id")
   images     Image[]
   variants     Variant[]
   user      User     @relation(fields: [createdBy], references: [id], map: "products_created_by_fkey")
+  Category      Category     @relation(fields: [categoryId], references: [id], map: "products_category_fkey")
 
   @@index([createdBy], name: "products_created_by_idx")
   @@map("products")
